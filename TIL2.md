@@ -6,6 +6,14 @@
 
 # [발생에러목록과해결과정(계속 반복되니 기록해놓자)](https://github.com/sungsikyang92/sungsikyang92/blob/main/Error_Process.md)
 
+# 20220609_TIL
+
+**HiddenHttpMethodFilter**
+
+Hidden 타입의 input 태그의 속성들을 읽어서 HttpServletRequestWrapper.getMethod() 반환 값을 변경해 요청된 HTTP 메소드의 타입을 PUT, DELETE, PATCH로 변경해주는 필터이다.
+
+
+
 # 20220608_TIL
 
 ## 다양한 의존관계 주입 방법
