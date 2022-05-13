@@ -20,7 +20,7 @@
 
 
 
-[TIL](/Users/ssiky/Library/Mobile Documents/com~apple~CloudDocs/A_GITHUB/sungsikyang92/TIL.md)
+[TIL](https://github.com/sungsikyang92/sungsikyang92/blob/main/TIL.md)
 
 <!--
 **sungsikyang92/sungsikyang92** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
