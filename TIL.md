@@ -1,8 +1,54 @@
 # TODAY I LEARNED - 20220513
 
-### 1. 냉무
+### 1. JS  노드 생성/삽입/삭제하기
 
+##### 1.1 노드생성
 
+새로운 요소 노드 객체를 생성할 때는 createElement() 메서드를 사용한다.
+
+```javascript
+const element = document.createElement(요소의 이름);
+const element = document.createElement("li");
+```
+
+새로운 텍스트 노드 객체를 생성할 때는 ceateTextNode() 메서드를 사용한다.
+
+```javascript
+const textnode = document.createTextNode(텍스트);
+const textnode = document.createTextNode("TEXT");
+```
+
+##### 1.2 노드삽입
+
+*   appendChild() 메서드
+
+    요소 객체에 인수로 넘긴 노드 객체를 해당 요소의 마지막 자식 노드로 삽입한다.
+
+    ```javascript
+    요소 노드.appendChild(삽입할노드);
+    li.appendChild(span);
+    ```
+
+*   insertBefore() 메서드
+
+    지정한 자식 노드 바로 앞에 노드 객체를 삽입할 때 사용한다.
+
+    ```javascript
+    요소 노드.insertBefore(삽입할 노드, 자식 노드)
+    <ul id="phoneList">
+        <li>iPhone</li>
+    	<li>Galaxy</li>
+    </ul>
+    <script>
+        const phoneList = document.getElementById("phoneList");
+    	const element = document.createElement("li");
+    	const text = document.createTextNode("BlackBerry");
+    	phoneList.insertBefore(element, phoneList.children[1]);
+    	element.appendChilde(text);
+    </script>
+    ```
+
+    <img width="125" alt="스크린샷 2022-05-13 오후 2 45 50" src="https://user-images.githubusercontent.com/71358285/168219008-5c330374-7190-4eb9-a198-69d4a08696a0.png" align="left">
 
 
 
