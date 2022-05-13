@@ -20,7 +20,7 @@
 ### 2.   spring project 초기 설정 (간편하게 stgart.spring.io에서 만들자)
      1.    spring initializr에서 projectg GENERATE
 
-![스크린샷 2022-05-12 오전 10.21.05](/Users/ssiky/Library/Application Support/typora-user-images/스크린샷 2022-05-12 오전 10.21.05.png)
+<img width="666" alt="image" src="https://user-images.githubusercontent.com/71358285/168215315-1222d0e0-13c4-4041-8d65-f20bb56574a7.png">
 
 우선 Dependecies는
 
