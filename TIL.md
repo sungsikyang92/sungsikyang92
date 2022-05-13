@@ -50,6 +50,8 @@ const textnode = document.createTextNode("TEXT");
 
     <img width="125" alt="스크린샷 2022-05-13 오후 2 45 50" src="https://user-images.githubusercontent.com/71358285/168219008-5c330374-7190-4eb9-a198-69d4a08696a0.png" align="left">
 
+***
+
 
 
 # TODAY I LEARNED - 20220512
