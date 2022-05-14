@@ -31,30 +31,49 @@ const textnode = document.createTextNode("TEXT");
 
 *   insertBefore() 메서드
 
-    지정한 자식 노드 바로 앞에 노드 객체를 삽입할 때 사용한다.
+	지정한 자식 노드 바로 앞에 노드 객체를 삽입할 때 사용한다.
 
     ```javascript
     요소 노드.insertBefore(삽입할 노드, 자식 노드)
     <ul id="phoneList">
-        <li>iPhone</li>
-    	<li>Galaxy</li>
+    <li>iPhone</li>
+    <li>Galaxy</li>
     </ul>
     <script>
-        const phoneList = document.getElementById("phoneList");
-    	const element = document.createElement("li");
-    	const text = document.createTextNode("BlackBerry");
-    	phoneList.insertBefore(element, phoneList.children[1]);
-    	element.appendChilde(text);
+    const phoneList = document.getElementById("phoneList");
+    const element = document.createElement("li");
+    const text = document.createTextNode("BlackBerry");
+    phoneList.insertBefore(element, phoneList.children[1]);
+    element.appendChilde(text);
     </script>
     ```
 
-    <img width="125" alt="스크린샷 2022-05-13 오후 2 45 50" src="https://user-images.githubusercontent.com/71358285/168219008-5c330374-7190-4eb9-a198-69d4a08696a0.png">
+<img width="125" alt="스크린샷 2022-05-13 오후 2 45 50" src="https://user-images.githubusercontent.com/71358285/168219008-5c330374-7190-4eb9-a198-69d4a08696a0.png">
 
+##### 1.3 노드 옮기기
 
+이미 있는 노드를 appendChild와 insertBefore 메서드로 문서에 삽입하면 해당 노드를 현재 위치엣허 삭제하고 새로운 위치에 삭제하여 이동시킨다.
 
+##### 1.4 노드 삭제하기
+
+removeChilde() 메서드로 노드의 자식 노드를 삭제한다.
+
+```javascript
+노드.revmoveChild(자식 노드)
+```
 
 
 ***
+
+### 2. 냉무
+
+
+
+
+
+
+
+
 
 
 
