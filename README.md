@@ -2,7 +2,7 @@
 
 I'm Sungsik Yang, Thank you for visiting my github.
 
-[This link is a TIL page what i've done to improve my skills.](https://github.com/sungsikyang92/sungsikyang92/blob/main/TIL.md) Not every single things but some of...
+[This link is a "TIL" page what i've done to improve my skills.](https://github.com/sungsikyang92/sungsikyang92/blob/main/TIL.md) Not every single things but some of...
 
 ![Anurag's GitHub stats](https://github-readme-stats.vercel.app/api?username=sungsikyang92&show_icons=true&theme=merko)
 
