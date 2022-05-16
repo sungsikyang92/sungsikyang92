@@ -1,6 +1,260 @@
+# TODAY I LEARNED - 20220515
+
+### 1. Swagger
+
+Swagger는 개발자가 REST 웹 서비스를 설계, 빌드, 문서화를 도와주는 오픈소스 소프트웨어이다.
+
+Swagger 버전은 사람들이 가장 많이 사용한 2.9.2를 사용하였다. (혹시 문제생기면 검색해서 해결할 가능성이 높으니..!)
+
+1.   build.gradled의 dependencies에 implementation 해준다.
+
+```
+	//swagger
+	//https://mvnrepository.com/artifact/io.springfox/springfox-swagger-ui
+	implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.2'
+	implementation group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.2'
+```
+
+2.   SwaggerConfig를 만들어준다.
+
+```java
+package com.dodo.bulldozer.config;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import springfox.documentation.RequestHandler;
+import springfox.documentation.builders.ApiInfoBuilder;
+import springfox.documentation.builders.PathSelectors;
+import springfox.documentation.builders.RequestHandlerSelectors;
+import springfox.documentation.spi.DocumentationType;
+import springfox.documentation.spring.web.plugins.ApiSelectorBuilder;
+import springfox.documentation.spring.web.plugins.Docket;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
+
+@Configuration
+@EnableSwagger2
+public class SwaggerConfig {
+
+    @Bean
+    public Docket docket() {
+        ApiInfoBuilder apiInfoBuilder = new ApiInfoBuilder();
+        apiInfoBuilder.title("API 서버 문서");
+        apiInfoBuilder.description("API 서버 문서 입니다.");
+
+        Docket docket = new Docket(DocumentationType.SWAGGER_2);
+        docket.apiInfo(apiInfoBuilder.build());
+
+        ApiSelectorBuilder apiSelectorBuilder = docket.select().apis(RequestHandlerSelectors.basePackage("com.dodo.bulldozer"));
+        apiSelectorBuilder.paths(PathSelectors.any());
+
+        return apiSelectorBuilder.build();
+    }
+}
+```
+
+3.   http://localhost:'port'/swagger-ui.html 에 접속하여 확인한다.
+
+class 에 @Api(tags = "설명해요")를 추가
+
+각각 기능에 @ApiOperation(value = "간단설명", notes ="상세설명")을 추가해준다.
+
+parameter가 있을 경우
+
+```
+@ApiImplicitParams({
+	@ApiImplicitParam(name="파라미터이름", value="의미", example="example값")
+})
+```
+
+도 추가해준다.
+
+***
+
+### 2. @PathVariable
+
+브라우저에서 요청 URL로 전달된 매개변수를 가져올 수 있다.
+
+```java
+@RequestMapping(value = "/todo/{id}", method = "RequestMethod.GET")
+public int notice(@PathVariable("num") long id) throws Exception {
+    return id
+}
+```
+
+URL이 `localhost:8080/bulldozer/todo/7` 이라면, 7이 id에 할당된다.
+
+***
+
+### 3. @ResponseBody
+
+
+
+
+
+
+
+
+
+***
+
+***
+
+
+
+
+
 # TODAY I LEARNED - 20220514
 
-### 1. 냉무
+### 1. JSON.stringify()
+
+우선 JSON이란 무엇인가? >> [JSON 공식 페이지](http://json.org/json-ko.html)
+
+JSON(JavaScript Object Notation)은 간단한 형식을 갖는 문자열로 데이터 교환에 주로 사용한다. 사람이 읽을 수 있는 텍스트 기반의 데이터 교환 표준이다. 텍스트 기반이므로 어떠한 프로그래밍 언어에서도 JSON 데이터를 읽고 사용할 수 있다. 
+
+규칙은 중괄호를 사용해서 객체를 표현하고, 객체는 (이름,값) 쌍을 갖는다. 이때 이름과 값은 콜론으로 구분한다. 기본 자료형으로는 Number, String, Boolean, Array, Object, null이 있다.
+
+
+
+그렇다면 'JSON.stringify(객체)' 는 무엇인가? 객체를 JSON으로 바꿔주는 것이다. 또한 replacer를 함수로 전달할 경우 변환 전 값을 변형할 수 있다.
+
+`JSON.stringify(value[, replacer[, space]])`
+
+예를 들어
+
+~~~javascript
+const ironman = {
+    name: 'Tony',
+    age: 40,
+    job: 'super hero',
+    wife: peper
+}
+
+const testJson = JSON.stringify(ironman);
+
+alert(typeof testJson);
+alert(testJson);
+~~~
+
+을 실행한다면 결과는,
+
+<img width="444" alt="스크린샷 2022-05-15 오후 4 18 29" src="https://user-images.githubusercontent.com/71358285/168461803-6afcab62-cd4d-4be9-af89-3c46e1e98746.png"> 
+
+<img width="444" alt="스크린샷 2022-05-15 오후 4 18 36" src="https://user-images.githubusercontent.com/71358285/168461817-3dad3778-393f-43d3-88c9-d7fdc1b81874.png">이다.
+
+이렇게 변경된 문자열은 네트워크를 통해 전송하거나 저장소에 저장할 수 있다.
+
+[이 링크는 JSON.stringify()의 MDN공식문서이다.](https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify)
+
+***
+
+### 2. JPA 제공 어노테이션
+
+1.   @Entity
+     *   테이블과 링크될 클래스임을 명시한다.
+2.   @Id
+     *   해당 테이블의 PK 필드를 나타낸다.
+3.   @GeneratedValue
+     *   PK의 생성 규칙을 나타낸다.
+     *   GenerationType.IDENTITY 옵션을 추가해 auto_increment가 되게한다.
+4.   @Column
+     *   테이블의 칼럼을 나타내며 굳이 선언하지 않아도, 해당 클래스의 필드는 모두 칼럼이 된다. 그럼에도 사용하는 경우는 기본값 외에 추가로 변경이 필요한 옵션이 있으면 사용한다.
+5.   @NoArgsConstructor
+     *   기본 생성자 자동 추가해주는 역할
+6.   @Getter
+     *   클래스 내 모든 필드의 Getter 메소드를 자동생성
+7.   @Builder
+     *   해당 클래스의 빌더 패턴 클래스를 생성
+     *   생성자 상단에 선언 시 생성자에 포함된 빌드만 빌더에 포함한다.
+
+***
+
+### 3. Entity 클래스에서는 절대 Setter 메소드를 만들지 않는다.
+
+대신 해당 필드의 값 변경이 필요하면 명확히 그 목적과 의도를 나타낼 수 있는 메소드를 추가해야한다.
+
+생성자를 통해 최종값을 채운 후 DB에 삽입한다. 값 변경이 필요한 경우 해당 이벤트에 맞는 public 메소드를 호출하여 변경한다.
+
+***
+
+### 4. 어노테이션들
+
+1.   @RestController
+     *   이 어노테이션을 사용하여 컨트롤러를 JSON형식으로 반환하는 컨트롤러로 만들어준다.
+2.   @GetMapping
+     *   HTTP Method인 Get의 요청을 받을 수 있는 API를 만들어 준다.
+3.   @RunWith(SpringRunner.class)
+     *   테스트를 진행할 때 JUnit에 내장된 실행자 외에 다른 실행자를 실행시킨다.
+     *   스프링 부트 테스트와 JUnit 사이에 연결자 역할을 한다.
+4.   @Autowired
+     *   스프링이 관리하는 Bean을 주입 받는다.
+5.   @WevMvcTest
+     *   Web(Spring MVC)에 집중할 수 있는 어노테이션
+     *   선언할 경우 @Controller, @ControllerAdvice 등을 사용할 수 있으나, @Service, @Component, @Repository등은 사용할 수 없다.
+
+***
+
+### 5. @RequestBody and @ResponseBody
+
+*   @RequestBody
+
+JSON 형식으로 전송된 요청 데이터를 커맨드 객체로 전달받는 방법이다.
+
+이 애노테이션을 커맨드 객체에 붙이면 JSON형식의 문자열을 해당 자바객체로 변환한다.
+
+*   @ResponseBody
+
+컨트롤러의 특정 메서드에 @ResponseBody를 적용하면 JSP가 아닌 텍스트나 JSON으로 결과를 전송할 수 있다.
+
+***
+
+### 6. ResponseEntity
+
+정상인 경우와 비정상인 경우 모두 JSON에 응답을 전송하는 방법이다. 예외에 대해 세밀한 제어가 필요한 경우 사용한다.
+
+Spring MVC는 리턴 타입이 ResponseEntity이면 ResponseEntity의 body로 지정한 객체를 사용해서 변환을 처리한다.
+
+ResponseEntity의 status로 지정한 값을 응답 상태 코드로 사용한다. 
+
+```java
+public ResponseEntity<Object> Todo(@PathVariable Long id){
+	Todo todo = Todo.selectById(id);
+    if (todo == null){
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+            .body(new ErrorResponse("no todo"))
+    }
+    return ResponseEntity.status(HttpStatus.OK).body(todo);
+}
+```
+
+ResponseEntity를 생성하는 기본 방법은 status와 body를 이용해서 상태 코드와 JSON으로 변환할 객체를 지정하는 것이다.
+
+`ResponseEntity.status(상태코드).body(객체)`
+
+200(OK) 응답 코드와 몸체 데이터를 생성할 경우 ok() 메서드를 이용해서 생성할 수도 있다.
+
+`ResponseEntity.ok(todo)`
+
+만약 몸체 내용이 없다면 다음과 같이 body를 지정하지 않고 build()로 바로 생성한다.
+
+`ResponseEntity.status(HttpStatus.NOT_FOUND).build()`
+
+몸체 내용이 없는 경우 status() 대신 사용할 수 있는 메서드는
+
+```java
+noContent():204
+badRequest():400
+notFound():404
+```
+
+
+
+
+
+***
+
+### 7. TestRestTemplate
+
+
 
 
 
@@ -26,7 +280,11 @@
 
 restful api design guidelines
 
-REST API(RESTful API)란 REST 아키텍처의 제약 조건을 준수하는 애플리케이션 프로그래밍 인터페이스를 뜻한다.
+
+
+
+
+REST(Representational State Transfer) API(RESTful API)란 REST 아키텍처의 제약 조건을 준수하는 애플리케이션 프로그래밍 인터페이스를 뜻한다.
 
 즉 정보들이 주고 받아지는데 있어서 개발자들이 널리 사용하는 일정의 형식이며, 정해진 폼에 맞춰서 기능을 만드는것이다.
 
@@ -341,7 +599,7 @@ git commit -m "leave a message"
 
 ### 9. script의 defer
 
-/html을 만나야 script가 실행되기 시작하게 한다. 페이지를 먼저 로드하고 scriptr가 실행됨으로, 페이지를 불러 올 때 빠르게 불러온다는 착각을 주게 할 수 있다.
+/html을 만나야 script가 실행되기 시작하게 한다. 페이지를 먼저 로드하고 script가 실행됨으로, 페이지를 불러 올 때 빠르게 불러온다는 착각을 주게 할 수 있다.
 
 ***
 
