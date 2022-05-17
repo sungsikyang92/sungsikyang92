@@ -1,3 +1,86 @@
+# 자꾸 공부해놓고 까먹는다..! 
+
+# 정리해놓고 자주 봐서 잊지 않도록 해보자..!
+
+
+
+
+
+# TODAY I LEARNED - 20220517
+
+### 1. @RequestParam
+
+
+
+***
+
+### 2. Spring Study..
+
+*   @Configuration
+
+    해당 클래스를 스프링 설정 클래스로 지정한다
+
+*   @Bean
+
+    스프링이 생성하는 객체를 빈 객체라고 부르는데, 이 애노테이션을 메서드에 붙이면 해당 메서드가 생성한 객체를 스프링이 관리하는 빈 객체로 등록한다.
+
+*   AnnotationConfigApplicationContext 클래스
+
+    자바 설정에서 정보를 읽어와 빈 객체를 생성하고 관리한다.
+
+*   Singleton
+
+    별도 설정을 하지 않은 경우 스프링은 한 개의 빈 객체만을 생성한다. 이때 빈 객체는 'Singleton'범위를 갖는다 라고 한다.
+
+    단일 객체를 의미하는 단어로서 스프링은 기본적으로 한개의 @Bean 애노테이션에 대해 한 개의 빈 객체를 생성한다.
+
+*   Dependency Injection
+
+    *   '의존 주입'이라 한다. 의존은 변경에 의해 영향을 받는 관계를 의미한다.
+
+    *   Dependency
+
+        *   ex) MemberDao의 insert() 메서드를 insertMember()메서드로 변경하면 이 메서드를 사용하는 MemberRegisterService클래스릐 코드도 함께 변경된다. 이렇게 변경에 따른 영향이 전파되는 관계를 '의존한다' 한다.
+
+        *   의존할 때 가장 쉬운 방법은 의존 대상 객체를 직접 생성하는 것이다. 그러나 클래스 내부에서 직접 의존 객체를 생성하는 것은 유지보수 관점에서 문제점을 유발할 수 있다.
+
+	    ```java
+    	public clss MemberRegisterService{
+        	//의존 객체 직접 생성함, 이는 유지보수 관점에서 문제점을 야기
+	        private MemberDao memberDao = new MemberDao();
+	   }
+      ```
+   
+   *   Dependency Injection
+   
+       DI는 의존하는 객체를 직접 생성하는 대신 의존 객체를 전달받는 방식을 사용한다.
+   
+       ```java
+       public clas MemberRegisterService{
+           private MemberDao memberDao;
+           
+           public MemberRegisterService(MemberDao memberDao){
+               this.memberDao = memberDao;
+           }
+       }
+       ```
+   
+       직접 의존 객체를 생성했던 위의 코드와 달리 바뀐 코드는 의존 객체를 직접 생성하지 않고 생성자를 통해서 의존 객체를 전달받는다. 즉 생성자를 통해 MemberRegisterService가 Dependency하고 있는 MemberDao객체를 Injection받은 것이다.
+   
+       *   DI는 변경의 유연함으로 사용된다.
+   
+           위의 예를 들어 DI패턴을 사용하지 않으면, Dao변경이 일어날 때 문제가 생길 수 있다. 여러 클래스에 Dao를 직접 의존 객체 생성 하였다면, 그 모든 클래스에서 Dao를 변경해주어야 한다. 그러나 DI패턴을 사용하였다면, 실제 객체를 생성하는 한 곳만 수정해주면 다른 클래스들은 수정해 줄 필요가 없다.
+
+​    
+
+
+
+***
+
+***
+
+
+
 # TODAY I LEARNED - 20220516
 
 ### 1. Swagger
