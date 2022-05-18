@@ -109,7 +109,7 @@ save, findById, findAll 등이 기본적으로 제공되는 인터페이스이�
      *   스프링이 제공하는 AOP 방식이며 프록시를 이용한다.
      *   프록시 방식은 중간에 프록시 객체를 생성하고, 실제 객체의 기능을 실행하기 전후에 공통기능을 호출한다.
 
-[more...](#)
+[more...](https://github.com/sungsikyang92/sungsikyang92/blob/main/AOP.md)
 
 ***
 
