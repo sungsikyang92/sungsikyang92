@@ -2,6 +2,30 @@
 
 # 정리해놓고 자주 봐서 잊지 않도록 해보자..!
 
+# TODAY I LEARNED - 20220519
+
+### 1. Node.js
+
+자바스크립트를 내 컴퓨터에서 실행할 수 있게 해주는 자바스크립트 런타임 환경이다. 브라우저 밖에서 실행할 수 있다는 것은, 자바스크립트를 클라이언트 언어뿐만 아니라 서버 언어로도 사용할 수 있다는 뜻이다.
+
+*   NPM<sup>Node Package Manager</sup>은 Node.js의 패키지 관리 시스템이다.
+
+노드를 설치하기 전에, 이미 깔려있는지 확인하고 모두 삭제해주었다. [참고](https://no-free-lunch.tistory.com/9)
+
+그러나 노드를 재설치하는 과정에서 download failed가 발생하였다.
+
+이를 해결하기위해서는
+
+`mkdir -p ~/.nodebrew/src` 후 다시 nodebrew를 통해 설치해주면 된다.
+
+
+
+
+
+***
+
+***
+
 # TODAY I LEARNED - 20220518
 
 ### 1. POSTMAN API
