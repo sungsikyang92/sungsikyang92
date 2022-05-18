@@ -2,15 +2,106 @@
 
 # 정리해놓고 자주 봐서 잊지 않도록 해보자..!
 
+# TODAY I LEARNED - 20220518
+
+### 1. POSTMAN API
+
+REST API를 테스트할 때, 임시로 프론트엔드 UI를 만들지 않고 직관적인 GUI 포스트맨 프로그램을 사용한다.
+
+포스트맨을 사용함으로써 간단히 RESTful API를 테스트할 수 있다.
+
+***
+
+### 2. DTO
+
+Data Transfer Object를 사용하는 이유는,
+
+1.   비즈니스 로직을 캡슐화<sub>encapsulation</sub>하기 위함이다. 외부 사용자에게 서비스 내부의 로직, 데이터베이스의 구조 등을 숨길 수 있다.
+
+2.   클라이언트가 필요한 정보를 모델이 전부 포함하지 않는 경우가 많기 때문이다.
+
+***
+
+### 3. REST 제약조건
+
+*   클라이언트-서버<sup>Client-Server</sup>
+*   상태가 없는<sup>stateless</sup>
+*   캐시되는<sup>Cacheable</sup>데이터
+*   일관적인 인터페이스<sup>Uniform Interface</sup>
+*   레이어 시스템<sup>Layered System</sup>
+*   코드-온-디맨드<sup>Code-On-Demand</sup>
+
+***
+
+### 4. JPA(Java Persistence API)
+
+ORM<sub>Object-Relational Mapping</sub>기술 표준으로 사용되는 인터페이스의 모음이다.
+
+자바 어플리케이션에서 관계형 데이터베이스를 사용하는 방식을 정의한 인터페이스로. 'JPA의 구현을 위해서 이런 기능을 작성해라' 라고 말해주는 지침이 된다.
+
+반복적인 CRUD SQL작업을 줄일 수 있게 해주며, 대표적으로 Hibernate가 있다.
+
+***
+
+### 5. H2
+
+In-Memory 데이터베이스로 로컬 환경에서 메모리상에 데이터베이스를 구축해 준다. 데이터베이스 서버를 구축하는데 시간을 할애할 필요가 없으므로 초기 개발 시에 많이 사용한다.
+
+디펜던시로 설정하면 @SpringBootApplication 어노테이션의 일부로 스프링이 알아서 애플리케이션을 H2 데이터베이스로 연결해준다.
+
+실행 시 테이블이 생성되고, 종료 시 테이블이 함께 소멸된다.
+
+***
+
+### 6. UUID - Universally Unique Identifier
+
+네트워크 상에서 고유성이 보장되는 id를 만들기 위한 표준 규약
+
+***
+
+### 7. @GeneratedValue
+
+ID를 자동으로 생성하겠다는 뜻. 매개변수 generator로 어떤 방식으로 id를 생성할지 지정할 수 있다.
+
+***
+
+### 8. @GenericGenerator
+
+Hibernate가 제공하는 기본 Generator가 아니라 나만의 Generator를 사용하고 싶을 경우 이용한다.
+
+***
+
+### 9. JpaRepository
+
+기본적인 데이터베이스 오퍼레이션 인터페이스를 제공한다.
+
+save, findById, findAll 등이 기본적으로 제공되는 인터페이스이다.
+
+구현은 스프링 데이터 JPA가 실행 시에 알아서 해줌으로 save메서드를 구현하려고 "Insert into..."와 같은 sql 쿼리를 작성할 필요가 없다.
+
+***
+
+### 10. AOP(Aspect Oriented Programming)
+
+공통 기능 구현과 핵심 기능 구현을 분리하는 것이 AOP의 핵심이다.
+
+여러 객체에 공통으로 적용할 수 있는 기능을 분리해서 재사용성을 높여주는 프로그래밍 기법.
 
 
 
+
+
+***
+
+***
 
 # TODAY I LEARNED - 20220517
 
-### 1. @RequestParam
+### 1. @RequestParam("매개변수")
 
+url에서 전송받은 매개변수를 지정한 변수에 자동으로 값이 설정된다.
 
+required 속성을 이용하면 필수 매개변수인 경우와 그렇지 않은 경우를 설정할 수 있다. 이를 생략하면 default값은 true이다. false로 설정하면 메서드 호출 시 지정한 이름의 매개변수가 전달되면 값을 저장하고 없으면 null을 할당한다.
 
 ***
 
@@ -18,7 +109,7 @@
 
 *   @Configuration
 
-    해당 클래스를 스프링 설정 클래스로 지정한다
+    해당 클래스를 스프링 설정 클래스로 지정한다. 이 애노테이션을 붙여야 스프링 설정 클래스로 사용할 수 있다.
 
 *   @Bean
 
@@ -36,25 +127,25 @@
 
 *   Dependency Injection
 
-    *   '의존 주입'이라 한다. 의존은 변경에 의해 영향을 받는 관계를 의미한다.
+   *   '의존 주입'이라 한다. 의존은 변경에 의해 영향을 받는 관계를 의미한다.
 
-    *   Dependency
+   *   Dependency
 
-        *   ex) MemberDao의 insert() 메서드를 insertMember()메서드로 변경하면 이 메서드를 사용하는 MemberRegisterService클래스릐 코드도 함께 변경된다. 이렇게 변경에 따른 영향이 전파되는 관계를 '의존한다' 한다.
+       *   ex) MemberDao의 insert() 메서드를 insertMember()메서드로 변경하면 이 메서드를 사용하는 MemberRegisterService클래스릐 코드도 함께 변경된다. 이렇게 변경에 따른 영향이 전파되는 관계를 '의존한다' 한다.
 
-        *   의존할 때 가장 쉬운 방법은 의존 대상 객체를 직접 생성하는 것이다. 그러나 클래스 내부에서 직접 의존 객체를 생성하는 것은 유지보수 관점에서 문제점을 유발할 수 있다.
+       *   의존할 때 가장 쉬운 방법은 의존 대상 객체를 직접 생성하는 것이다. 그러나 클래스 내부에서 직접 의존 객체를 생성하는 것은 유지보수 관점에서 문제점을 유발할 수 있다.
 
-	    ```java
-    	public clss MemberRegisterService{
-        	//의존 객체 직접 생성함, 이는 유지보수 관점에서 문제점을 야기
-	        private MemberDao memberDao = new MemberDao();
-	   }
-      ```
-   
-   *   Dependency Injection
-   
+       ```java
+   	public clss MemberRegisterService{
+       	//의존 객체 직접 생성함, 이는 유지보수 관점에서 문제점을 야기
+           private MemberDao memberDao = new MemberDao();
+      }
+     ```
+     
+   *   Dependency Injection - 생성자 방식
+
        DI는 의존하는 객체를 직접 생성하는 대신 의존 객체를 전달받는 방식을 사용한다.
-   
+
        ```java
        public clas MemberRegisterService{
            private MemberDao memberDao;
@@ -64,14 +155,45 @@
            }
        }
        ```
-   
+
        직접 의존 객체를 생성했던 위의 코드와 달리 바뀐 코드는 의존 객체를 직접 생성하지 않고 생성자를 통해서 의존 객체를 전달받는다. 즉 생성자를 통해 MemberRegisterService가 Dependency하고 있는 MemberDao객체를 Injection받은 것이다.
-   
+
        *   DI는 변경의 유연함으로 사용된다.
-   
+
            위의 예를 들어 DI패턴을 사용하지 않으면, Dao변경이 일어날 때 문제가 생길 수 있다. 여러 클래스에 Dao를 직접 의존 객체 생성 하였다면, 그 모든 클래스에서 Dao를 변경해주어야 한다. 그러나 DI패턴을 사용하였다면, 실제 객체를 생성하는 한 곳만 수정해주면 다른 클래스들은 수정해 줄 필요가 없다.
 
-​    
+   *   DI의 세터 메서드 방식
+
+       세터 메서드는 자바빈 규칙에 따른다.
+
+       *   메서드 이름이 set으로 시작한다.
+       *   set 뒤에 첫 글자는 대문자로 시작한다.
+       *   파라미터가 1개이다.
+       *   리턴 타입이 void이다.
+
+***
+
+*   @Autowired
+
+    스프링 빈에 의존하는 다른 빈을 자동으로 주입하고 싶을 때 사용한다.
+
+***
+
+### Map, HashMap, ConcurrentHashMap
+
+***
+
+### Optional<>
+
+null값이 반환 될 가능성이 있는것들에, 그것을 명확하게 드러내기 위해 메소드 반환 타입으로 사용된다.
+
+***
+
+### 주저리주저리
+
+*   스프링 컨테이너가 생성한 빈은 싱글톤 객체, 스프링 컨테이너는 @Bean이 붙은 메서드에 대해 한 개의 객체만 생성한다. 이는 다른 설정 메서드에서 memberDao()를 몇 번을 호출하더라도 항상 같은 객체를 리턴한다.
+
+
 
 
 
@@ -166,12 +288,6 @@ public int notice(@PathVariable("num") long id) throws Exception {
 
 URL이 `localhost:8080/bulldozer/todo/7` 이라면, 7이 id에 할당된다.
 
-***
-
-### 3. @ResponseBody
-
-
-
 
 
 
@@ -230,24 +346,42 @@ alert(testJson);
 
 ***
 
-### 2. JPA 제공 어노테이션
+### 2. 어노테이션 Annotation
 
 1.   @Entity
      *   테이블과 링크될 클래스임을 명시한다.
+
 2.   @Id
      *   해당 테이블의 PK 필드를 나타낸다.
+
 3.   @GeneratedValue
      *   PK의 생성 규칙을 나타낸다.
      *   GenerationType.IDENTITY 옵션을 추가해 auto_increment가 되게한다.
+
 4.   @Column
      *   테이블의 칼럼을 나타내며 굳이 선언하지 않아도, 해당 클래스의 필드는 모두 칼럼이 된다. 그럼에도 사용하는 경우는 기본값 외에 추가로 변경이 필요한 옵션이 있으면 사용한다.
+
 5.   @NoArgsConstructor
-     *   기본 생성자 자동 추가해주는 역할
-6.   @Getter
+     *   매개변수가 없는 기본 생성자를 구현해준다.
+
+6.   @AllArgsConstructor
+
+     *   클래스의 모든 멤버 변수를 매개변수로 받는 생성자를 구현해준다.
+
+7.   @Getter
      *   클래스 내 모든 필드의 Getter 메소드를 자동생성
-7.   @Builder
-     *   해당 클래스의 빌더 패턴 클래스를 생성
+
+8.   @Builder
+
+     *   오브젝트 생성을 위한 디자인 패턴 중 하나이다.
+     *   Builder 클래스를 따로 개발하지 않고도 Builder 패턴을 사용해 오브젝트를 생성할 수 있다.
+
      *   생성자 상단에 선언 시 생성자에 포함된 빌드만 빌더에 포함한다.
+     *   장점은 생성자 매개변수의 순서를 기억할 필요가 없다.
+
+9.   @Data
+
+     *   Getter/Setter 메서드를 구현해준다.
 
 ***
 
@@ -262,14 +396,22 @@ alert(testJson);
 ### 4. 어노테이션들
 
 1.   @RestController
+     
+     *   http와 관련된 코드 및 요청/응답 매핑을 스프링이 알아서 해준다.
+     
      *   이 어노테이션을 사용하여 컨트롤러를 JSON형식으로 반환하는 컨트롤러로 만들어준다.
+     
 2.   @GetMapping
-     *   HTTP Method인 Get의 요청을 받을 수 있는 API를 만들어 준다.
+     *   해당 메서드의 리소스와 HTTP 메서드를 지정한다. 클라리언트가 이 리소스에 대해 Get 메서드로 요청하면 @GetMapping에 연결된 컨트롤러가 실행된다.
+     *   @GetMapping에서 또한 URL 경로를 지정할 수 있다.
+
 3.   @RunWith(SpringRunner.class)
      *   테스트를 진행할 때 JUnit에 내장된 실행자 외에 다른 실행자를 실행시킨다.
      *   스프링 부트 테스트와 JUnit 사이에 연결자 역할을 한다.
+
 4.   @Autowired
      *   스프링이 관리하는 Bean을 주입 받는다.
+
 5.   @WevMvcTest
      *   Web(Spring MVC)에 집중할 수 있는 어노테이션
      *   선언할 경우 @Controller, @ControllerAdvice 등을 사용할 수 있으나, @Service, @Component, @Repository등은 사용할 수 없다.
@@ -284,9 +426,21 @@ JSON 형식으로 전송된 요청 데이터를 커맨드 객체로 전달받는
 
 이 애노테이션을 커맨드 객체에 붙이면 JSON형식의 문자열을 해당 자바객체로 변환한다.
 
+보통 반환하고자 하는 리소스가 복잡할 때 사용한다.(오브젝트처럼 복잡한 자료형을 통째로 요청에 보내고 싶은 경우)
+
 *   @ResponseBody
 
 컨트롤러의 특정 메서드에 @ResponseBody를 적용하면 JSP가 아닌 텍스트나 JSON으로 결과를 전송할 수 있다.
+
+HTTP의 BODY에 문자 내용을 직접 반환한다.
+
+viewResolver 대신에 HttpMessageConverter가 동작한다.
+
+기본 문자처리: StringHttpMessageConverter
+
+기본 객체처리: MappingJackson2HttpMessageConverter
+
+byte 처리 등등 기타 여러 HttpMessageConverter가 기본으로 등록되어 있다.
 
 ***
 
