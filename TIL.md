@@ -4,6 +4,42 @@
 
 # TODAY I LEARNED - 20220519
 
+### 1. Basic 인증
+
+웹 애플리케이션에서 인증을 구현하는 가장 간단한 방법이다. 모든 HTTP 요청에 아이디와 비밀번호를 같이 보낸다.
+
+최초 로그인한 후 HTTP요청 헤더의 Authorization: 부분에 `Basic <ID>:<Password>`처럼 아이디와 비밀번호를 콜론으로 이어붙인 후 Base64로 인코딩한 문자열을 함께  보낸다.
+
+그러나 인코딩은 보안을 목적이 아니기에, 디코더만 있으면 누구나 디코딩해서 아이디와 비밀번호를 확인 할 수 있디ㅏ. 그래서 HTTP와 사용하기에는 취약하다. 반드시 HTTPS와 사용해야 한다.
+
+또한 모든 요청이 일종의 로그인 요청이기 때문에, 이 솔루션을 이용하면 사용자를 로그아웃시킬 수 없다.
+
+***
+
+### 2. 토큰 기반 인증
+
+토큰은 사용자를 구별할 수 있는 문자열이다. 최초 로그인 시 서버가 토큰을 만들어 준다. 토큰을 만들어 반환하면 클라이언트는 이후 요청에 아이디와 비밀번호 대신 토큰을 계속 넘겨 자신이 인증된 사용자임을 알린다.
+
+```
+Authorization: bearer <TOKEN>
+```
+
+
+
+
+
+
+
+
+
+
+
+***
+
+***
+
+# TODAY I LEARNED - 20220519
+
 ### 1. Node.js
 
 자바스크립트를 내 컴퓨터에서 실행할 수 있게 해주는 자바스크립트 런타임 환경이다. 브라우저 밖에서 실행할 수 있다는 것은, 자바스크립트를 클라이언트 언어뿐만 아니라 서버 언어로도 사용할 수 있다는 뜻이다.
@@ -18,7 +54,79 @@
 
 `mkdir -p ~/.nodebrew/src` 후 다시 nodebrew를 통해 설치해주면 된다.
 
+***
 
+### 2. React
+
+*   리액트 애플리케이션 생성
+
+```bash
+npx create-react-app 생성할이름
+cd 생성한이름
+npm stasrt
+```
+
+실행하면 `localhost:3000`이 브라우저에 실행된다.
+
+*   리액트에서 html 파일은 index.html 하나밖에 없다. 다른 페이지들은 React.js를 통해 생성되고 index.html에 있는 root 엘리먼트 아래에 동적으로 렌더링된다.
+
+[리액트 공식 튜토리얼 사이트](https://ko.reactjs.org/docs/getting-started.html)
+
+*   state
+
+    리액트가 관리하는 오브젝트다. 추후에 변경할 수 있는 변수를 state 오브젝트에서 관리한다. 자바스크립트 내에서 변경한 변수의 값을 HTML에 다시 렌더링하기 위해서.
+
+***
+
+### 3. SPA<sub>Single Page Application</sub>
+
+한 번 웹 페이지를 로딩하면 사용자가 임의로 새로 고침하지 않는 이상 페이지를 새로 로딩하지 않는 애플리케이션을 의미한다.
+
+서버에게 새 HTML 페이지를 요청하지 않고 자바스크립트가 동적으로 HTML을 재구성해 만드는 클라이언트 애플리케이션을 SPA라 한다. 이 렌더링 과정을 클라이언트-사이드 렌더링 이라한다.
+
+***
+
+### 4. 리액트와 관련해서 렌더링이란 무엇인가?
+
+리액트는 브라우저에 보이는 HTML DOM 트리의 다른 버전인 ReactDOM을 갖고 있다. 컴포넌트의 state가 변하면 ReactDOM은 이를 감지하고 변경된 부분의 HTML을 바꿔준다. HTML이 업데이트되면 이 변경된 결과를 눈으로 확인할 수 있고, 이를 렌더링이라고 한다.
+
+***
+
+### 5. 마운팅<sub>mounting</sub>
+
+렌더링이 맨 처음 일어나는 순간, ReactDOM트리가 존재하지 않는 상태에서 리액트가 처음으로 각 컴포넌트의 render() 함수를 콜해 자신의 DOM 트리를 구성하는 과정을 마운팅이라고 한다.
+
+***
+
+### 6. CORS <sup>Cross Origin Resource Sharing</sup>
+
+처음 리소스를 제공한 모데인이 현재 요청하려는 도메인과 다르더라도 요청을 허락해주는 웹 보안 방침이다.
+
+<img width="747" alt="image" src="https://user-images.githubusercontent.com/71358285/169270682-8bb6881b-88d4-4e5b-8629-25a03573a8fa.png">
+
+CORS가 가능하려면 백엔드에서 CORS방침 설정을 해줘야 한다. 이를위해 나의경우 com.todo.ssiky.config라는 패키지에 WebMvcConfig라는 클래스를 생성했다.
+
+[public doc](https://developer.mozilla.org/ko/docs/Web/HTTP/CORS)
+
+***
+
+### 7. JS Promise
+
+비동기 오퍼레이션<sup>Asynchronous Operation</sup>에서 사용한다. Pending, Resolve, Rejecte 3가지 상태가 있다.
+
+*   Pending - 오퍼레이션이 끝나길 기다리는 상태
+*   Resolve - then의 매개변수로 넘어오는 함수를 실행한다. 오퍼레이션 중 에러가 나는 경우 reject()함수를 콜한다.
+*   Reject - 
+
+***
+
+### 8. Fetch API
+
+자바스크립트가 제공하는 메서드로 API 서버로 http 요청을 송신 및 수신할 수 있도록 도와준다.
+
+fetch는 url을 매개변수로 받거나 url과 options를 매개변수로 받을 수 있다.
+
+fetch() 함수는 위의 Promise 오브젝트를 리턴한다.
 
 
 
