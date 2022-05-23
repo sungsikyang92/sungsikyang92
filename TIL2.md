@@ -51,6 +51,8 @@ html에서 자바언어를 사용할 수 있게 해준다. 그러나 모든 jsp�
 
 <img width="2532" alt="스크린샷 2022-05-23 오후 6 29 41" src="https://user-images.githubusercontent.com/71358285/169789205-513ae87a-78ae-4b13-8377-3053f810b1f6.png">
 
+***
+
 ##### Scope
 
 ![2_5_1_scope_](https://user-images.githubusercontent.com/71358285/169790477-e2da8ea2-ff79-403d-98cb-3d8ce04fc217.jpg)
@@ -58,7 +60,25 @@ html에서 자바언어를 사용할 수 있게 해준다. 그러나 모든 jsp�
 **4가지 Scope**
 
 -   Application : 웹 어플리케이션이 시작되고 종료될 때까지 변수가 유지되는 경우 사용
+    -   웹 어플리케이션이 시작되고 종료될 때까지 변수를 사용할 수 있다.
+    -   ServletContext 인터페이스를 구현한 객체를 사용한다.
+    -   jsp에서는 application 내장 객체를 이용한다.
+    -   서블릿의 경우는 getServletContext()메소드를 이용하여 application객체를 이용한다.
+    -   웹 어플리케이션 하나당 하나의 application객체가 사용된다.
+    -   값을 저장할 때는 application객체의 setAttribute()메소드를 사용한다.
+    -   값을 읽어 들일 때는 application객체의 getAttribute()메소드를 사용한다.
+    -   모든 클라이언트가 공통으로 사용해야 할 값들이 있을 때 사용한다.
+
 -   Session : 웹 브라우저 별로 변수가 관리되는 경우 사용
+    -   웹 브라우저별로 변수를 관리하고자 할 경우 사용한다.
+    -   웹 브라우저간의 탭 간에는 세션정보가 공유되기 때문에, 각각의 탭에서는 같은 세션정보를 사용할 수 있다.
+    -   HttpSession 인터페이스를 구현한 객체를 사용한다.
+    -   JSP에서는 session 내장 변수를 사용한다.
+    -   서블릿에서는 HttpServletRequest의 getSession()메소드를 이용하여 session 객체를 얻는다.
+    -   값을 저장할 때는 session 객체의 setAttribute()메소드를 사용한다.
+    -   값을 읽어 들일 때는 session 객체의 getAttribute()메소드를 사용한다.
+    -   장바구니처럼 사용자별로 유지가 되어야 할 정보가 있을 때 사용한다.
+
 -   Request : http요청을 WAS가 받아서 웹 브라우저에게 응답할 때까지 변수가 유지되는 경우 사용
     -   http 요청을 WAS가 받아서 웹 브라우저에게 응답할 때까지 변수값을 유지하고자 할 경우 사용한다.
     -   HttpServletRequest 객체를 사용한다.
@@ -77,6 +97,43 @@ html에서 자바언어를 사용할 수 있게 해준다. 그러나 모든 jsp�
     -   마치 지역변수처럼 사용된다는 것이 다른 Scope들과 다릅니다.
     -   jsp에서 pageScope에 값을 저장한 후 해당 값을 EL표기법 등에서 사용할 때 사용됩니다.
     -   지역 변수처럼 해당 jsp나 서블릿이 실행되는 동안에만 정보를 유지하고자 할 때 사용됩니다.
+
+***
+
+##### [EL (Expression Language)](https://www.boostcourse.org/web326/lecture/258517/?isDesc=false)
+
+Servlet에서 사용되는 자바를 좀 더 간결하고 보기 쉽게 해준다.
+
+EL 문법을 사용하지 않고 문자열 그대로 표시할 때, `<%@ page isELIgnored = "true" %> `
+
+*   scope별 표현 언어의 사용
+
+    *   ```jsp
+        <%
+            pageContext.setAttribute("p1", "page scope value");
+            request.setAttribute("r1", "request scope value");
+            session.setAttribute("s1", "session scope value");
+            application.setAttribute("a1", "application scope value");
+        %>    
+        
+        pageContext.getAttribute("p1") : ${pageScope.p1 }<br>
+        request.getAttribute("r1") : ${requestScope.r1 }<br>
+        session.getAttribute("s1") : ${sessionScope.s1 }<br>
+        application.getAttribute("a1") : ${applicationScope.a1 }<br>
+        <br><br>
+        pageContext.getAttribute("p1") : ${p1 }<br>
+        request.getAttribute("r1") : ${r1 }<br>
+        session.getAttribute("s1") : ${s1 }<br>
+        application.getAttribute("a1") : ${a1 }<br>
+        ```
+
+***
+
+##### [JSTL(JSP Standard Tag Library)](https://www.boostcourse.org/web326/lecture/258523/?isDesc=false)
+
+*  JSP 안에 자바코드와 HTML코드가 섞여있을때 수정하기 어려움을 느낀다. 이를 해결하기 위해 등장함
+*  JSTL(JSP Standard Tag Library)은 JSP 페이지에서 조건문 처리, 반복문 처리 등을 html tag형태로 작성할 수 있게 도와줍니다
+
 
 
 
