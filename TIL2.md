@@ -10,13 +10,79 @@
 
 경로는 항상 WebContent 파일 아래에 있다.
 
-모든 jsp는 서블릿으로 바뀌어서 동작한다. '<%@'는 페이지 지시자이다.
+html에서 자바언어를 사용할 수 있게 해준다. 그러나 모든 jsp는 서블릿으로 바뀌어서 동작한다. 
+
+'<%@'는 페이지 지시자이다. `out.print(total) = <%=totla%>`
+
+톰캣이 실행될 때, jsp를 servlet으로 바꾸어 실행시켜준다.
+
+##### JSP의 실행순서
+
+1.  브라우저가 웹서버에 JSP에 대한 요청 정보를 전달한다.
+2.  브라우저가 요청한 JSP가 최초로 요청했을 경우만 JSP로 작성된 코드가 서블릿으로 코드로 변환한다. (java 파일 생성)
+3.  서블릿 코드를 컴파일해서 실행가능한 bytecode로 변환한다. (class 파일 생성)
+4.  서블릿 클래스를 로딩하고 인스턴스를 생성한다.
+5.  서블릿이 실행되어 요청을 처리하고 응답 정보를 생성한다.
+
+##### JSP 문법
+
+*   JSP 페이지에서는 선언문(Declaration), 스크립트릿(Scriptlet), 표현식(Expression) 이라는 3가지의 스크립트 요소를 제공
+    *   선언문(Declaration) - `<%! %>`: 선언문은 JSP 페이지 내에서 필요한 멤버변수나 메소드가 필요할 때 선언해 사용하는 요소
+    *   스크립트릿(Scriptlet) - `<% %>`: 프로그래밍 코드 기술에 사용
+        *   가장 일반적으로 많이 쓰이는 스크립트 요소
+        *   주로 프로그래밍의 로직을 기술할 때 사용
+        *   스크립트릿에서 선언된 변수는 지역변수
+    *   표현식(Expression) - `<%= %>`: 화면에 출력할 내용 기술에 사용
+        *   JSP 페이지에서 웹 브라우저에 출력할 부분을 표현 (즉, 화면에 출력하기 위한 것)
+        *   스크립트릿내에서 출력할 부분은 내장객체인 out 객체의 print() 또는 println() 메소드를 사용해서 출력
+
+*   JSP페이지에서 사용할 수 있는 주석
+    *   HTML주석, 자바주석, JSP주석
+        *   HTML 주석은 <!--로 시작해서 -->로 끝나는 형태
+        *   JSP 페이지에서만 사용되며 <%--로 시작해서 --%>로 끝나는 형태
+        *   자바 주석은 //, /**/을 사용해서 작성.
+
+##### JSP 내장 객체
+
+-   JSP를 실행하면 서블릿 소스가 생성되고 실행된다.
+-   JSP에 입력한 대부분의 코드는 생성되는 서블릿 소스의 _jspService() 메소드 안에 삽입되는 코드로 생성된다.
+-   _jspService()에 삽입된 코드의 윗부분에 미리 선언된 객체들이 있는데, 해당 객체들은 jsp에서도 사용 가능하다.
+-   response, request, application, session, out과 같은 변수를 내장객체라고 한다.
+
+<img width="2532" alt="스크린샷 2022-05-23 오후 6 29 41" src="https://user-images.githubusercontent.com/71358285/169789205-513ae87a-78ae-4b13-8377-3053f810b1f6.png">
+
+##### Scope
+
+![2_5_1_scope_](https://user-images.githubusercontent.com/71358285/169790477-e2da8ea2-ff79-403d-98cb-3d8ce04fc217.jpg)
+
+**4가지 Scope**
+
+-   Application : 웹 어플리케이션이 시작되고 종료될 때까지 변수가 유지되는 경우 사용
+-   Session : 웹 브라우저 별로 변수가 관리되는 경우 사용
+-   Request : http요청을 WAS가 받아서 웹 브라우저에게 응답할 때까지 변수가 유지되는 경우 사용
+    -   http 요청을 WAS가 받아서 웹 브라우저에게 응답할 때까지 변수값을 유지하고자 할 경우 사용한다.
+    -   HttpServletRequest 객체를 사용한다.
+    -   JSP에서는 request 내장 변수를 사용한다.
+    -   서블릿에서는 HttpServletRequest 객체를 사용한다.
+    -   값을 저장할 때는 request 객체의 setAttribute()메소드를 사용한다.
+    -   값을 읽어 들일 때는 request 객체의 getAttribute()메소드를 사용한다.
+    -   forward 시 값을 유지하고자 사용한다.
+    -   앞에서 forward에 대하여 배울 때 forward 하기 전에 request 객체의 setAttribute() 메소드로 값을 설정한 후, 서블릿이나 jsp에게 결과를 전달하여 값을 출력하도록 하였는데 이렇게 포워드 되는 동안 값이 유지되는 것이 Request scope를 이용했다고 합니다.
+-   Page : 페이지 내에서 지역변수처럼 사용
+    -   하나의 페이지가 수행될 때까지 값을 저장하고 있는것이 pageScope
+    -   PageContext 추상 클래스를 사용한다.
+    -   JSP 페이지에서 pageContext라는 내장 객체로 사용 가능 하다.
+    -   forward가 될 경우 해당 Page scope에 지정된 변수는 사용할 수 없다.
+    -   사용방법은 Application scope나 Session scope, request scope와 같다.
+    -   마치 지역변수처럼 사용된다는 것이 다른 Scope들과 다릅니다.
+    -   jsp에서 pageScope에 값을 저장한 후 해당 값을 EL표기법 등에서 사용할 때 사용됩니다.
+    -   지역 변수처럼 해당 jsp나 서블릿이 실행되는 동안에만 정보를 유지하고자 할 때 사용됩니다.
 
 
 
 
 
-
+arie.kim@sunykorea.ac.kr
 
 ## 20220522_TIL
 
