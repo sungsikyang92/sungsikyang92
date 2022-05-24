@@ -6,13 +6,85 @@
 
 ## 20220524_TIL
 
+### Spring
+
+#### Spring Framework란?
+
+*   소프트웨어적 의미로는 '기능을 미리 클래스나 인터페이스 등으로 만들어 제공하는 반제품'
+*   일정한 기준에 따라 개발이 이루어지므로 개발 생산성과 품질이 보장된 애플리케이션을 개발할 수 있다.
+*   여러 가지 빈(클래스 객체)를 스프링이 권한을 가지고 직접 관리한다.
+
+*   원하는 부분만 가져다 사용할 수 있도록 모듈화가 잘 되어 있다.
+*   IoC 컨테이너이다. > 서블릿이나 빈 등을 개발자가 코드에서 생성하지 않고 프레임워크가 직접 수행
+*   AOP기능을 이용해 자원 관리 > 핵심 기능 외 부수 기능들을 분리 구현함으로써 모듈성을 증가시키는 방법
+*   DI 기능을 지원 > 클래스 객체를 개발자가 코드에서 생성하지 않고 프레임워크가 생성하여 사용하는 방법
+*   선언적으로 트랜잭션을 관리 할 수 있다.
+
+![2_10_1___](https://user-images.githubusercontent.com/71358285/169957990-25971d10-447e-4841-b9c0-029a96fe61e3.png)
+
+##### 컨테이너(Container)
+
+컨테이너는 인스턴스의 생명주기를 관리하며, 생성된 인스턴스에게 추가적인 기능을 제공합니다.
+
+예를 들어, Servlet을 실행해주는 WAS는 Servlet 컨테이너를 가지고 있다고 말합니다.
+
+WAS는 웹 브라우저로부터 서블릿 URL에 해당하는 요청을 받으면, 서블릿을 메모리에 올린 후 실행합니다.
+
+개발자가 서블릿 클래스를 작성했지만, 실제로 메모리에 올리고 실행하는 것은 WAS가 가지고 있는 Servlet 컨테이너입니다.
+
+Servlet컨테이너는 동일한 서블릿에 해당하는 요청을 받으면, 또 메모리에 올리지 않고 기존에 메모리에 올라간 서블릿을 실행하여 그 결과를 웹 브라우저에게 전달합니다.
+
+컨테이너는 보통 인스턴스의 생명주기를 관리하며, 생성된 인스턴스들에게 추가적인 기능을 제공하는 것을 말합니다.
+
+##### [IoC(Inversion of Control)](https://isstory83.tistory.com/91) - 객체를 대신 생성해주고 싱글턴으로 관리해주는 기능등을 IOC제어의 역전이라고 한다.
+
+컨테이너가 코드 대신 오브젝트의 제어권을 갖고 있어 IoC(제어의 역전)이라 합니다.
+
+예를 들어, 서블릿 클래스는 개발자가 만들지만, 그 서블릿의 메소드를 알맞게 호출하는 것은 WAS입니다.
+
+이렇게 개발자가 만든 어떤 클래스나 메소드를 다른 프로그램이 대신 실행해주는 것을 제어의 역전이라고 합니다.
+
+*   작업을 수행하는 쪽에서 Object를 생성하는 제어 흐름의 개념을 거꾸로 뒤집는다.
+*   IoC 에서는 Object가 자신이 사용할 Object를 생성하거나 선택하지 않는다.
+*   또한 Object는 자신이 어떻게 생성되고 어떻게 사용되는지 알 수 없다.
+*   모든 Object는 제어 권한을 위임받는 특별한 Object에 의해서 만들어 지고 사용된다.
+
+##### DI(Dependency Injection)
+
+클래스 사이의 의존 관계를 빈(Bean) 설정 정보를 바탕으로 컨테이너가 자동으로 연결해주는 것을 말합니다.
+
+<img width="784" alt="스크린샷 2022-05-24 오후 3 29 32" src="https://user-images.githubusercontent.com/71358285/169963698-bb7a9793-6749-4f54-8bdf-4d0c9bce0447.png">
+
+##### Spring에서 제공하는 IoC/DI 컨테이너
+
+-   BeanFactory : IoC/DI에 대한 기본 기능을 가지고 있습니다.
+-   ApplicationContext : BeanFactory의 모든 기능을 포함하며, 일반적으로 BeanFactory보다 추천됩니다. 트랜잭션처리, AOP등에 대한 처리를 할 수 있습니다. BeanPostProcessor, BeanFactoryPostProcessor등을 자동으로 등록하고, 국제화 처리, 어플리케이션 이벤트 등을 처리할 수 습니다.
+
+-   BeanPostProcessor : 컨테이너의 기본로직을 오버라이딩하여 인스턴스화 와 의존성 처리 로직 등을 개발자가 원하는 대로 구현 할 수 있도록 합니다.
+-   BeanFactoryPostProcessor : 설정된 메타 데이터를 커스터마이징 할 수 있습니다.
+
+
+
+### Java config를 이용한 설정을 위한 어노테이션
+
+*   @Configuration  
+    *   config파일이라고 알려주는 어노테이션,  스프링 설정 클래스
+*   @Bean 
+    *   
+
+### 
+
+
+
+### 톰캣은 서블릿 컨테이너라 불리는데, 톰캣을 실행하면 서블릿의 생성,초기화,서비스실행,소멸에 관한 모든 권한을 가지고 서블릿을 관리하기 때문
+
 
 
 
 
 ## 20220523_TIL
 
-#### JSP - Java Server Page
+### JSP - Java Server Page
 
 경로는 항상 WebContent 파일 아래에 있다.
 
@@ -22,7 +94,7 @@ html에서 자바언어를 사용할 수 있게 해준다. 그러나 모든 jsp�
 
 톰캣이 실행될 때, jsp를 servlet으로 바꾸어 실행시켜준다.
 
-##### JSP의 실행순서
+#### JSP의 실행순서
 
 1.  브라우저가 웹서버에 JSP에 대한 요청 정보를 전달한다.
 2.  브라우저가 요청한 JSP가 최초로 요청했을 경우만 JSP로 작성된 코드가 서블릿으로 코드로 변환한다. (java 파일 생성)
@@ -30,7 +102,7 @@ html에서 자바언어를 사용할 수 있게 해준다. 그러나 모든 jsp�
 4.  서블릿 클래스를 로딩하고 인스턴스를 생성한다.
 5.  서블릿이 실행되어 요청을 처리하고 응답 정보를 생성한다.
 
-##### JSP 문법
+#### JSP 문법
 
 *   JSP 페이지에서는 선언문(Declaration), 스크립트릿(Scriptlet), 표현식(Expression) 이라는 3가지의 스크립트 요소를 제공
     *   선언문(Declaration) - `<%! %>`: 선언문은 JSP 페이지 내에서 필요한 멤버변수나 메소드가 필요할 때 선언해 사용하는 요소
@@ -48,7 +120,7 @@ html에서 자바언어를 사용할 수 있게 해준다. 그러나 모든 jsp�
         *   JSP 페이지에서만 사용되며 <%--로 시작해서 --%>로 끝나는 형태
         *   자바 주석은 //, /**/을 사용해서 작성.
 
-##### JSP 내장 객체
+#### JSP 내장 객체
 
 -   JSP를 실행하면 서블릿 소스가 생성되고 실행된다.
 -   JSP에 입력한 대부분의 코드는 생성되는 서블릿 소스의 _jspService() 메소드 안에 삽입되는 코드로 생성된다.
@@ -59,7 +131,7 @@ html에서 자바언어를 사용할 수 있게 해준다. 그러나 모든 jsp�
 
 ***
 
-##### Scope
+### Scope
 
 ![2_5_1_scope_](https://user-images.githubusercontent.com/71358285/169790477-e2da8ea2-ff79-403d-98cb-3d8ce04fc217.jpg)
 
@@ -106,7 +178,7 @@ html에서 자바언어를 사용할 수 있게 해준다. 그러나 모든 jsp�
 
 ***
 
-##### [EL (Expression Language)](https://www.boostcourse.org/web326/lecture/258517/?isDesc=false)
+### [EL (Expression Language)](https://www.boostcourse.org/web326/lecture/258517/?isDesc=false)
 
 Servlet에서 사용되는 자바를 좀 더 간결하고 보기 쉽게 해준다.
 
@@ -135,21 +207,16 @@ EL 문법을 사용하지 않고 문자열 그대로 표시할 때, `<%@ page is
 
 ***
 
-##### [JSTL(JSP Standard Tag Library)](https://www.boostcourse.org/web326/lecture/258523/?isDesc=false)
+### [JSTL(JSP Standard Tag Library)](https://www.boostcourse.org/web326/lecture/258521?isDesc=false)
 
 *  JSP 안에 자바코드와 HTML코드가 섞여있을때 수정하기 어려움을 느낀다. 이를 해결하기 위해 등장함
 *  JSTL(JSP Standard Tag Library)은 JSP 페이지에서 조건문 처리, 반복문 처리 등을 html tag형태로 작성할 수 있게 도와줍니다
 
 
 
-
-
-
-arie.kim@sunykorea.ac.kr
-
 ## 20220522_TIL
 
-#### HTTP - Hypertext Transfer Protocol
+### HTTP - Hypertext Transfer Protocol
 
 -   HTTP는 서버와 클라이언트가 인터넷상에서 데이터를 주고받기 위한 프로토콜(protocol)입니다.
 -   HTTP는 계속 발전하여 HTTP/2까지 버전이 등장한 상태입니다.
@@ -165,7 +232,7 @@ arie.kim@sunykorea.ac.kr
     \- 이러한 특징을 무상태(Stateless)라고 말한다.
     \- 이러한 특징 때문에 정보를 유지하기 위해서 Cookie와 같은 기술이 등장하게 되었다.
 
-#### URL - Uniform Resource Locator
+### URL - Uniform Resource Locator
 
 -   인터넷 상의 자원의 위치
 -   특정 웹 서버의 특정 파일에 접근하기 위한 경로 혹은 주소
@@ -194,14 +261,14 @@ arie.kim@sunykorea.ac.kr
 
 ***
 
-#### 웹 프론트엔드
+### 웹 프론트엔드
 
 *   사용자에게 웹을 통해 다양한 콘텐츠를 제공한다. 또한, 사용자의 요구사항에 반응해서 동작한다.
 *   웹콘텐츠를 잘 보여주기 위해 구조를 만들어야 합니다.(신문,책등과 같이) - HTML
 *   적절한 배치와 일관된 디자인 등을 제공해야 합니다.(보기 좋게) - CSS
 *   사용자 요청을 잘 반영해야 합니다.(소통하듯이) - Javascript
 
-#### 웹 백엔드
+### 웹 백엔드
 
 *   정보를 처리하고 저장하며, 요청에 따라 정보를 내려주는 역할을 한다.
 *   프로그래밍 언어(JAVA, Python, PHP, Javascript 등)
@@ -213,7 +280,7 @@ arie.kim@sunykorea.ac.kr
 
 ***
 
-#### [Browser](https://www.html5rocks.com/en/tutorials/internals/howbrowserswork/#The_rendering_engine)
+### [Browser](https://www.html5rocks.com/en/tutorials/internals/howbrowserswork/#The_rendering_engine)
 
 *   Parsing - 토큰단위로 다 잘라서 의미를 해석하고 의미에 따라서 실행하는것
 
@@ -224,7 +291,7 @@ arie.kim@sunykorea.ac.kr
 
 ***
 
-#### 웹서버
+### 웹서버
 
 -   웹 서버는 소프트웨어(Software)를 보통 말하지만, 웹 서버 소프트웨어가 동작하는 컴퓨터를 말합니다.
 -   웹 서버의 가장 중요한 기능은 클라이언트(Client)가 요청하는 HTML 문서나 각종 리소스(Resource)를 전달하는 것입니다.
@@ -235,7 +302,7 @@ arie.kim@sunykorea.ac.kr
 
 ***
 
-#### WAS - Web Application Server
+### WAS - Web Application Server
 
 *   클라이언트는 서비스를 제공하는 서버에게 정보를 요청하여 응답 받은 결과를 사용한다.
 *   DBMS는 다수의 사용자가 데이터베이스 내의 데이터에 접근할 수 있도록 해주는 소프트웨어이다.
@@ -249,7 +316,7 @@ arie.kim@sunykorea.ac.kr
 
 ***
 
-#### Java Web Application
+### Java Web Application
 
 WAS에 설치되어 동작하는 어플리케이션이다. HTML, CSS, 이미지, 자바로 작성된 클래스, 각종 설정 파일 등이 포함된다. 복잡할 웹어플리케이션일수록 이러한것들이 복잡하고 많이 들어있다.
 
@@ -257,7 +324,7 @@ WAS에 설치되어 동작하는 어플리케이션이다. HTML, CSS, 이미지,
 
 
 
-##### Context - server.xml에 등록하는 웹 어플리케이션
+### Context - server.xml에 등록하는 웹 어플리케이션
 
 *   컨테이너 실행 시 웹 어플리케이션당 하나의 컨텐스트가 생성
 *   웹 어플리케이션과 같을 수도 있고 다를 수도 있다.
@@ -267,7 +334,7 @@ WAS에 설치되어 동작하는 어플리케이션이다. HTML, CSS, 이미지,
 
 ***
 
-#### Servlet
+### Servlet
 
 *   자바 웹 어플리케이션의 구성요소 중 동적인 처리를 하는 프로그램의 역할입니다.
 
@@ -302,7 +369,7 @@ WAS에 설치되어 동작하는 어플리케이션이다. HTML, CSS, 이미지,
 
 ***
 
-#### HttpServletRequest, HttpServletResponse
+### HttpServletRequest, HttpServletResponse
 
 WAS는 웹 브라우저로부터 Servlet요청을 받으면,
 
@@ -325,14 +392,14 @@ WAS는 웹 브라우저로부터 Servlet요청을 받으면,
 
 ## 20220521_TIL
 
-#### **데이터베이스와 데이터베이스 관리 시스템**
+### **데이터베이스와 데이터베이스 관리 시스템**
 
 -   Q> 데이터베이스와 데이터베이스 관리 시스템을 어린이도 알 수 있을 정도로 설명해주세요.
 -   A> 도서관에 있는 책들이 데이터베이스라고 한다면, 도서관 사서분들이나 도서 정보를 찾아주는 컴퓨터를 DBMS라고 볼 수 있습니다.
 
 
 
-#### **데이터베이스의 기본개념 (정의)**
+### **데이터베이스의 기본개념 (정의)**
 
 -   데이터의 집합 (a Set of Data)
 -   여러 응용 시스템(프로그램)들의 통합된 정보들을 저장하여 운영할 수 있는 공용(share) 데이터의 집합
@@ -340,7 +407,7 @@ WAS는 웹 브라우저로부터 Servlet요청을 받으면,
 
 
 
-#### **데이터베이스의 특성**
+### **데이터베이스의 특성**
 
 -   실시간 접근성(Real-time Accessability)
     \- 사용자의 요구를 즉시 처리할 수 있다.
@@ -356,7 +423,7 @@ WAS는 웹 브라우저로부터 Servlet요청을 받으면,
 
 
 
-#### **데이터베이스 관리 시스템 (Database Management System = DBMS)**
+### **데이터베이스 관리 시스템 (Database Management System = DBMS)**
 
 -   데이터베이스를 관리하는 소프트웨어
 -   여러 응용 소프트웨어(프로그램) 또는 시스템이 동시에 데이터베이스에 접근하여 사용할 수 있게 한다
@@ -368,7 +435,7 @@ WAS는 웹 브라우저로부터 Servlet요청을 받으면,
 
   
 
-#### **데이터베이스 관리 시스템의 장/단점**
+### **데이터베이스 관리 시스템의 장/단점**
 
 -   장점
     \- 데이터 중복이 최소화
@@ -381,7 +448,7 @@ WAS는 웹 브라우저로부터 Servlet요청을 받으면,
 
 ***
 
-#### **MySQL_MAC_OS** >>>> [MySQL DOC](https://dev.mysql.com/doc/refman/5.7/en/create-database.html)
+### **MySQL_MAC_OS** >>>> [MySQL DOC](https://dev.mysql.com/doc/refman/5.7/en/create-database.html)
 
 1.   설치
 
@@ -395,15 +462,14 @@ WAS는 웹 브라우저로부터 Servlet요청을 받으면,
 
 `mysql.server stop`
 
-#### **운영체제의 백그라운드로 MySQL이 계속 실행되도록 하고싶다면?**
+### **운영체제의 백그라운드로 MySQL이 계속 실행되도록 하고싶다면?**
 
 *   `brew services start mysql` 데몬형태로 실행
 *   `brew services restart mysql` 서비스 재시작
 *   `brew services stop mysql`서비스 종료
 *   `brew services list`데몬으로 실행되고 있는 프로그램 리스트 
 
-#### **SQL(Structured Query Language)**
-
+### **SQL(Structured Query Language)**
 -   SQL은 데이터를 보다 쉽게 검색하고 추가, 삭제, 수정 같은 조작을 할 수 있도록 고안된 컴퓨터 언어입니다.
 -   관계형 데이터베이스에서 데이터를 조작하고 쿼리하는 표준 수단입니다.
 -   DML (Data Manipulation Language): 데이터를 조작하기 위해 사용합니다.
@@ -414,41 +480,41 @@ WAS는 웹 브라우저로부터 Servlet요청을 받으면,
     권한을 관리하고, 테이터의 보안, 무결성 등을 정의합니다.
     GRANT, REVOKE 등이 여기에 해당합니다.
 
-#### **MySQL 관리자 계정인 root로 데이터베이스 관리 시스템에 접속**
+### **MySQL 관리자 계정인 root로 데이터베이스 관리 시스템에 접속**
 
 `mysql -u root -p`
 
-#### **DATABASE 생성하기**
+### **DATABASE 생성하기**
 
 `create database "DB이름"`
 
-#### **DATABASE CREATE USER**
+### **DATABASE CREATE USER**
 
 `CREATE USER connectuser@localhost IDENTIFIED BY 'connect123!@#';`
 
-#### **GIVE PRIVILEGES TO USER**
+### **GIVE PRIVILEGES TO USER**
 
 `GRANT ALL PRIVILEGES ON connectdb.* TO 'connectuser'@'localhost';`
 
-#### **MAKING DBMS ACCEPTION**
+### **MAKING DBMS ACCEPTION**
 
 `FLUSH PRIVILEGES;`
 
-#### **ACCESS TO DB WITH USER**
+### **ACCESS TO DB WITH USER**
 
 `mysql -h 127.0.01 -u "USER NAME" -p "DB NAME";` then type password.
 
 If U R using UR laptop -h will be 127.0.0.1
 
-#### **GET MySQL VERSION AND CURRENT DATE**
+### **GET MySQL VERSION AND CURRENT DATE**
 
 `SELECT VERSION(), CURRENT_DATE;`
 
-#### **IMPORT sql file to DB at specific user**
+### **IMPORT sql file to DB at specific user**
 
 `mysql -u "USERNAME" -p "DBNAME" < "FILENAME.sql";` then type password.
 
-#### **CHECKING TABLE'S STRUCTURE**
+### **CHECKING TABLE'S STRUCTURE**
 
 `desc "TABLENAME";`
 
