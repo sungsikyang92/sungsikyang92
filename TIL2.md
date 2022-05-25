@@ -4,6 +4,162 @@
 
 # 취직해야지..! 더이상 미루는건 없다! 벼랑끝이다.
 
+## 20220525_TIL
+
+### 테스팅
+
+응용 프로그램 또는 시스템의 동작과 성능,안전성이 요구하는 수준을 만족하는지 확인하기 위해 결함을 발견하는 과정.
+
+*   정적 테스트 - 프로그램을 개발하기 전에 요구사항 등을 리뷰하는 것
+*   동적 테스트 - 프로그램 개발 이후에 실제 실행하면서 테스트하는 것
+
+테스트는
+
+	1. 금전적 손실방지, 2. 시간 낭비, 3. 비즈니스의 이미지 손상, 4. 부상이나 사망을 방지하기 위해 필요하다.
+
+테스트는 언제 필요한가?
+
+#### TDD
+
+DD란 "프로그램을 작성하기 전에 테스트를 먼저 작성하는 것"이라고 TDD를 주도한 켄트 벡이 정의했다.
+
+TDD의 정의는 "업무 코드를 작성하기 전에 테스트 코드를 먼저 만드는 것" 이라고 정의된다.
+
+코드를 검증하는 테스트 코드를 먼저 만든 다음에 실제 작성해야 하는 프로그램 코드 작성에 들어가라는 뜻이다.
+
+이는 메소드나 함수같은 프로그램 모듈을 작성할 때 '작성 종료조건을 먼저 정해놓고 코딩을 시작한다'라는 의미로 받아들이면 편하다.
+
+TDD를 적용해 테스트를 먼저 개발함으로써 개발자는 자연스레 객체의 내부 구현 보다 객체의 인터페이스를 먼저 생각하게 되고 이는 좋은 객체 지향 설계를 가져갈 수 있는 첫 걸음이 됩니다. 즉, 응집도가 높고 결합도가 낮은 코드를 개발할 확률이 더 높아진다는 이야기 입니다.
+
+#### JUnit
+
+테스트를 위한 자바언어의 프레임워크이다.
+
+![2](https://user-images.githubusercontent.com/71358285/170159552-21fd5e5e-df51-4753-93a7-bb948b7d4bd9.png)
+![12](https://user-images.githubusercontent.com/71358285/170159563-ce70c9ce-7a02-4eab-8580-8f9da5ad33cd.png)
+
+![3](https://user-images.githubusercontent.com/71358285/170159618-35745592-9b83-4b01-a218-5bced146a327.png)
+
+[JUnit실습](https://www.boostcourse.org/web326/lecture/58976?isDesc=false)
+
+#####  스프링 테스트 어노테이션 사용하기[링크](https://www.boostcourse.org/web326/lecture/58977/?isDesc=false)
+
+1.   스프링 프레임워크를 사용하도록 기존코드를 변경해야한다.
+     *   pom.xml에 관련 라이브러리를 추가하고 Maven update 수행
+2.   Java Config 파일을 생성해줘야한다.
+     *   클래스에 @Configuration어노테이션을 붙여 스프링 설정 파일이라는것을 알려준다. (스프링 빈 컨테이너인 ApplicationContext에서 읽어들인다.)
+     *   @ComponentScan을 사용하여 특정 패키지를 한다. 그 패키지 이하에서 컴포넌트를 찾도록 수행된다.
+3.   스프링 빈 컨테이너가 클래스를 찾아 빈으로 등록할 수 있도록 클래스 위에 @Component를 붙인다.
+
+4.   테스트 클래스 위에
+
+     *   @RunWith(SpringJUnit4ClassRunner.class - 스프링 빈 컨테이너가 내부적으로 생성되도록 한다.
+     *   @ContextConfiguration(classes = {ApplicationConfig.class}) - 내부적으로 생성된 스프링 빈 컨테이너가 사용할 설정파일을 지정할 때 사용합니다.
+
+5.   테스트 클래스 내부 메서드에
+
+     *   @Autowired
+
+         CalculatorService calculatorService;
+
+
+
+##### Mock 객체 이용
+
+테스트를 위해 가짜 객체를 쉽게 만들어 줄 수 있는 프레임워크이다. 사용하기 위해서는 pom.xml에 파일을 추가해줘야한다.
+
+1.   테스트클래스 위에 `@RunWith(MockitoJUnitRunner.class) `을 추가해준다.
+
+2.   ```java
+     @Mock
+     CalculatorService calculatorService;
+     ```
+
+     해당 클래스가 목 객체를 참조하도록 한다. 즉 객체를 생성하지 않아도 자동으로 객체가 생성되고 해당 필드가 초기화된다.
+
+3.   ```Java
+     @InjectMocks
+      MyService myService;
+     ```
+
+     위의 어노테이션이 붙은 필드는 목 객체를 사용하는 해당 서비스 객체를 생성하여 초기화하라는 의미이다.
+
+***
+
+### Spring JDBC
+
+*   JDBC 프로그래밍의 반복되는 저수준의 세부 개발요소를 스프링 프레임워크가 처리해준다.
+
+*   **Spring JDBC 패키지**
+
+    **org.springframework.jdbc.core**
+
+    -   JdbcTemplate 및 관련 Helper 객체 제공
+
+    **org.springframework.jdbc.datasource**
+
+    -   DataSource를 쉽게 접근하기 위한 유틸 클래스, 트랜젝션매니져 및 다양한 DataSource 구현을 제공
+
+    **org.springframework.jdbc.object**
+
+    -   RDBMS 조회, 갱신, 저장등을 안전하고 재사용 가능한 객제 제공
+
+    **org.springframework.jdbc.support**
+
+    -   jdbc.core 및 jdbc.object를 사용하는 JDBC 프레임워크를 지원
+
+#### **JDBC Template**
+
+-   org.springframework.jdbc.core에서 가장 중요한 클래스입니다.
+-   리소스 생성, 해지를 처리해서 연결을 닫는 것을 잊어 발생하는 문제 등을 피할 수 있도록 합니다.
+-   스테이먼트(Statement)의 생성과 실행을 처리합니다.
+-   SQL 조회, 업데이트, 저장 프로시저 호출, ResultSet 반복호출 등을 실행합니다.
+-   JDBC 예외가 발생할 경우 org.springframework.dao패키지에 정의되어 있는 일반적인 예외로 변환시킵니다.
+
+#### ConnectionPool
+
+-   DB연결은 비용이 많이 듭니다.
+-   커넥션 풀은 미리 커넥션을 여러 개 맺어 둡니다.
+-   커넥션이 필요하면 커넥션 풀에게 빌려서 사용한 후 반납합니다.
+
+#### DataSource
+
+-   DataSource는 커넥션 풀을 관리하는 목적으로 사용되는 객체입니다.
+-   DataSource를 이용해 커넥션을 얻어오고 반납하는 등의 작업을 수행합니다.
+
+### STATIC IMPORT객체에 선언된 변수를 클래스 이름없이 가져다 쓸 수 있게 해준다.
+
+*   ex) **import** **static** kr.or.connect.daoexam.dao.RoleDaoSqls.*;
+
+***
+
+### Spring MVC
+
+*   MVC는 Model View Controller의 약자이다.
+    *   Model - 뷰가 렌더링하는데 필요한 데이터이다. ex) 사용자가 요청한 상품목록이나, 주문내역
+    *   View - 실제로 보이는 부분이며, 모델을 사용해 렌더링한다. ex) JSP,PDF, XML등으로 결과를 표현한다.
+    *   Controller - 사용자의 액션에 응답하는 컴포넌트이다. 모델을 업데이트하고 다른 액션을 수행한다.
+
+![1](https://user-images.githubusercontent.com/71358285/170194959-b4c03a9b-8ef6-424e-865b-db9336b1c9e9.png)
+
+스프링 MVC 프레임 워크에서 가장 큰 주체는 DispatcherServlet이다. [DispatcherServlet자세히 보기](https://jess-m.tistory.com/15)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ## 20220524_TIL
 
 ### Spring
@@ -63,14 +219,23 @@ Servlet컨테이너는 동일한 서블릿에 해당하는 요청을 받으면, 
 -   BeanPostProcessor : 컨테이너의 기본로직을 오버라이딩하여 인스턴스화 와 의존성 처리 로직 등을 개발자가 원하는 대로 구현 할 수 있도록 합니다.
 -   BeanFactoryPostProcessor : 설정된 메타 데이터를 커스터마이징 할 수 있습니다.
 
+#### ApplicationContext
 
+파라미터를 받지 않은 빈생성메서드를 미리 생성해서, 반환받은 객체를 관리한다. 그리고 파라미터에 생성된 객체들과 같은 타입이 있을 경우에 파라미터에 전달해서 객체를 생성한다.
 
-### Java config를 이용한 설정을 위한 어노테이션
+### Java config를 이용한 설정을 위한 Spring 어노테이션
 
 *   @Configuration  
     *   config파일이라고 알려주는 어노테이션,  스프링 설정 클래스
 *   @Bean 
-    *   
+    *   bean을 정의하는 어노테이션
+*   @ComponentScan
+    *   @Controller, @Service, @Repository, @Component 어노테이션이 붙은 클래스를 찾아 컨테이너에 등록
+*   @Component
+    *   알아서 어노테이션 붙어있는것들 찾아서 등록하게 해준다. 반드시 패키지명을 알려줘야, 범위를 정해서 그 부분만 스캔한다.
+*   @Autowired
+    *   해당 객체의 타입이 있으면 주입해준다.
+    *   굳이 setter메서드가 필요하지 않다.
 
 ### 
 
