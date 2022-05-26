@@ -4,6 +4,18 @@
 
 # 취직해야지..! 더이상 미루는건 없다! 벼랑끝이다.
 
+## 20220526_TIL
+
+
+
+
+
+
+
+
+
+
+
 ## 20220525_TIL
 
 ### 테스팅
@@ -144,9 +156,115 @@ TDD를 적용해 테스트를 먼저 개발함으로써 개발자는 자연스�
 
 스프링 MVC 프레임 워크에서 가장 큰 주체는 DispatcherServlet이다. [DispatcherServlet자세히 보기](https://jess-m.tistory.com/15)
 
+#### [DispatcherServlet](https://www.boostcourse.org/web326/lecture/258533/?isDesc=false)
 
+#### 프로젝트 구성 순서
 
+1.   웹어플리케이션 프로젝트
 
+     1.   pom.xml에 라이브러리들을 추가해준다.
+          1.   자바 버전확인
+          2.   Spring 라이브러리
+          3.   Servelt JSP JSTL 라이브러리
+          4.   MySQL
+          5.   DataSource
+     2.   Navigarot에서 .settings > facet에서 jst.web version확인해준다.
+     3.   Maven Update로 적용을 해주고, 이클립스 restart
+
+2.   Spring MVC를 위한 설정
+
+     *   DispatcherServlet을 FrontController로 설정
+         *   web.xml파일에 설정, javax.servlet.ServletContainerInitializer, org.springframework.web.WebApplicationInitializer의 세가지 방법이 있다.
+     *   Config 생성
+         *   @Configuration
+         *   @EnableWebMvc - Web에 필요한 ㅂ니들을 대부분 자동으로 설정해준다.
+         *   @ComponentScan - 범위를 지정해줌으로서 컨테이너 관리에 용이하다.
+         *   WebMvcConfigurerAdapter 상속 - 기본 설정 이외의 설정이 필요할 경우 해당 클래스를 상속 받은 후, 메소드를 오버라이딩 하여 구현한다.
+
+3.   Spring MVC에서 Controller 실습
+
+     **Spring MVC가 지원하는 메소드 인수 애노테이션**
+
+     -   **@RequestParam**
+     -   **@RequestHeader**
+     -   **@RequestBody**
+     -   @RequestPart
+     -   **@ModelAttribute**
+     -   **@PathVariable**
+     -   @CookieValue
+
+      
+
+     **@RequestParam**
+
+     -   Mapping된 메소드의 Argument에 붙일 수 있는 어노테이션
+     -   @RequestParam의 name에는 http parameter의 name과 멥핑
+     -   @RequestParam의 required는 필수인지 아닌지 판단
+
+      
+
+     **@PathVariable**
+
+     -   @RequestMapping의 path에 변수명을 입력받기 위한 place holder가 필요함
+     -   place holder의 이름과 PathVariable의 name 값과 같으면 mapping 됨
+     -   required 속성은 default true 임
+
+      
+
+     **@RequestHeader**
+
+     -   요청 정보의 헤더 정보를 읽어들 일 때 사용
+     -   @RequestHeader(name="헤더명") String 변수명
+
+      
+
+     **Spring MVC가 지원하는 메소드 리턴 값**
+
+     -   **org.springframework.web.servlet.ModelAndView**
+     -   org.springframework.ui.Model
+     -   java.util.Map
+     -   org.springframework.ui.ModelMap
+     -   org.springframework.web.servlet.View
+     -   **java.lang.String**
+     -   java.lang.Void
+     -   org.springframework.http.HttpEntity<?>
+     -   org.springframework.http.ResponseEntity<?>
+     -   **기타 리턴 타입**
+
+***
+
+## 레이어드 아키텍처(Layered Architecture)
+
+*   Controller에서 중복되는 부분을 처리하려면?
+    *   별도의 객체로 분리한다.
+    *   별도의 메소드로 분리한다.
+    *   컨트롤러와 서비스(비즈니스 메서드)
+        *   비즈니스 메소드를 별도의 서비스객체에서 구현하도록 하고 컨트롤러는 서비스객체를 사용하도록 한다. 이를 비즈니스메서드라고한다.
+*   서비스 객체란?
+    *   비즈니스 로직을 수행하는 메소드를 가지고 있는 객체를 서비스 객체라고 한다.
+    *   보통 하나의 비즈니스 로직은 하나의 트랜잭션으로 동작한다.
+*   트랜잭션이란?
+    *   하나의 논리적인 작업을 의미한다.
+    *   원자성(Atomicity), 일관성(Consistency), 독립성(Isolation), 지속성(Durability)의 4가지로 구분된다.
+        *   원자성 - 전체가 성공하거나 전체가 실패하는 것을 의미한다.
+            *   중간에 오류가 발생하면, 앞의 작업들을 모두 원래대로 복원시켜야 한다. 이를 롤백이라고 한다. 끝까지 모두 성공했을때만 정보를 모두 반영한다. 이를 커밋이라고 한다. 롤백하거나 커밋을 하게되면 하나의 트랜잭션 처리가 완료된다.
+        *   일관성 - 트랜잭션의 작업 처리 결과가 항상 일관성이 있어야 한다는것.
+            *   트랜잭션이 진행되는 동안 데이터가 변경되더라도 업데이트된 데이터로 트랜잭션이 진행되는것이 아니라, 처음에 트랜잭션을 진행 하기 위해 참조한 데이터로 진행된다. 
+        *   독립성 - 둘 이상의 트랜잭션이 동시에 병행 실행되고 있을 경우에는 어느 하나의 트랜잭션이라도 다른 트랜잭션의 연산에 끼어들 수 없다. 하나의 특정 트랜잭션이 완료될때까지, 다른 트랜잭션이 특정 트랜잭션의 결과를 참조할 수 없다.
+        *   지속성 - 트랜잭션이 성공적으로 완료도히었을 경우, 결과는 영구적으로 반영되어야 한다는 것.
+*   JDBC 프로그래밍에서 트랜잭션 처리 방법
+    *   DB에 연결된 후 Connection객체의 setAutoCommit 메서드는 디폴트로 true이다. 이를 false로 지정하여 입력, 수정, 삭제 SQL이 실행을 한 후 모두 성공했을 경우 Connection이 가지고 있는 commit() 메소드를 호출한다.
+
+*   @EnableTransactionManagement
+    *   Spring Java Config파일에서 트랜잭션을 활성화 할 때 사용하는 애노테이션입니다.
+    *   Java Config를 사용하게 되면 PlatformTransactionManager 구현체를 모두 찾아서 그 중에 하나를 매핑해 사용합니다.
+    *   특정 트랜잭션 메니저를 사용하고자 한다면 TransactionManagementConfigurer를 Java Config파일에서 구현하고 원하는 트랜잭션 메니저를 리턴하도록 합니다.
+    *   아니면, 특정 트랜잭션 메니저 객체를 생성시 @Primary 애노테이션을 지정합니다.
+
+*   레이어드 아키텍처를 위한 설정의 분리
+    *   DispatcherServlet을 경우에 따라 2개 이상 설정할 수 있는데 이 경우에 각각의 설정 파일에서 생성한 빈을 서로 사용 할 수 없다.
+    *   이를 동시에 사용하기위해서는 ContextLoaderListener를 사용하면 된다.
+    *   그러면 각각의 ApplicationContext가 생성되는데, 이 때 ContextLoaderListener가 생성하는 인스턴스가 root컨텍스트가 되고 DispatcherServlet이 생성한 인스턴스는 root컨텍스트를 부모로하는 자식 컨텍스트가 된다.
 
 
 
