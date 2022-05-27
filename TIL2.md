@@ -44,7 +44,25 @@ HashMap<> map = new HashMap<>(); 안하고? 차이는?
 
 *   SQL의 DML중 SELECT를 실행했을 때 하나의 객체결과값이 나올 때 사용하는 메소드이다.
 
+### web.xml 한글 인코딩 설정
 
+```xml
+	<filter>
+		<filter-name>encodingFilter</filter-name>
+		<filter-class>org.springframework.web.filter.CharacterEncodingFilter
+		</filter-class>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>encodingFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+```
+
+아아... encodingFilter의 url-pattern을 '/'로 해놨었다.. 이걸 놓쳐서 몇시간 삽질인가.. '/*'으로 해야 정상적으로 한글 인코딩이 된다.
 
 
 
@@ -930,6 +948,10 @@ If U R using UR laptop -h will be 127.0.0.1
 ### **CHECKING TABLE'S STRUCTURE**
 
 `desc "TABLENAME";`
+
+### **IMPORT DATA FROM .SQL FILES**
+
+`source '경로';`
 
 #### **데이터 조작어 DML**
 
