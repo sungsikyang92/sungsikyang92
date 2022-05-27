@@ -4,9 +4,127 @@
 
 # 취직해야지..! 더이상 미루는건 없다! 벼랑끝이다.
 
+## 20220527_TIL
+
+#### [Spring JDBC]NamedParameterJdbcTemplate 
+
+기존에 사용하던 JdbcTemplate은 쿼리문에서 데이터를 넣을 부분에 ?를 이용하여 처리하였다. 이러한 방식은 인자 위치에 대한 순서가 강제되게 된다. 이를 보완해서 나온 방법이 NamedParameterJdbcTemplate이며, ?대신에 변수를 이용하여 처리함으로써 순서에 강제받지 않게된다.
+
+기존 JdbcTemplate 방식
+
+```sql
+SELECT name, address, phone FROM table WHERE name = ?
+```
+
+NamedParameterJdbcTemplate 방식
+
+```sql
+SELECT name, address, phone FROM table WHERE name = :name;
+```
+
+#### [Spring JDBC]SimpleJdbcInsert
+
+Insert 구문을 자동생성 해준다. 이 클래스를 활용하면, 직접 INSERT구문을 사용하지 않고도 DB에 데이터를 저장할 수 있다.
+
+
+
+[Spring JDBC에 대하여 정리되어있는 GitHub](https://github.com/benelog/spring-jdbc-tips/blob/master/spring-jdbc-core.md)
+
+Map은 인터페이스 HashMap은 구현 클래스인데. 
+
+왜 Map<> map = new HashMap<>();함?
+
+HashMap<> map = new HashMap<>(); 안하고? 차이는?
+
+#### RowMapper
+
+*   ResultSet을 전달받고 필요한 정보를 ResultSet의 로우 하나만을 매핑하기 위해 사용한다.
+
+#### queryForObject()
+
+*   SQL의 DML중 SELECT를 실행했을 때 하나의 객체결과값이 나올 때 사용하는 메소드이다.
+
+
+
+
+
+
+
 ## 20220526_TIL
 
+### Spring과  SpringBoot
 
+Spring은 SpringFramework로써 개발자들의 반복된 코드작성을 해소해주기 위해서 개발되었다. 개발자들에게 봄이왔다는 의미로 네이밍을 Spring이 되었다.
+
+그러나 여기에서도 보완점이 있어서 Springboot가 나오게되었다.
+
+SpringBoot는 Spring에 비해
+
+1.   간편한 설정
+2.   편리한 의존성 관리와 자동권장 버전 관리
+3.   내장 서버로 인한 간단판 배포 서버 구축
+4.   스프링 Security, Data JPA 등의 다른 스프링 프레임워크 요소를 쉽게 사용
+
+이라는 장점이 있다.
+
+***
+
+### [Rest API](https://www.boostcourse.org/web326/lecture/58986/?isDesc=false)
+
+REST API로 시스템을 개발할 때 변경에 유연하고 확장성이 높은 코드를 작성할 수 있게 해준다.
+
+***
+
+### Web API
+
+웹 서버 또는 웹 브라우저를 위한 애플리케이션 프로그래밍 인터페이스이다. HTTP 서비스이고 다양한 클라이언트에서 접근이 가능하도록 설계되어있다. Web환경을 통해 제공되는 데이터 CRUD 인터페이스를 제공한다.
+
+REST API 아키텍처 스타일을 완벽하게 구현하지 못할 경우
+
+***
+
+### @RestController
+
+*   Spring 4 에서 Rest API 또는 Web API를 개발하기 위해 등장한 애노테이션합니다.
+
+*   이전 버전의 @Controller와 @ResponseBody를 포함합니다.
+
+    *   @ResponseBody
+        *   컨트롤러의 특정 메서드에 @ResponseBody를 적용하면 JSP가 아닌 텍스트나 JSON으로 결과를 전송할 수 있다.
+        *   HTTP의 BODY에 문자 내용을 직접 반환한다.
+        *   viewResolver 대신에 HttpMessageConverter가 동작한다.
+        *   기본 문자처리: StringHttpMessageConverter
+        *   기본 객체처리: MappingJackson2HttpMessageConverter
+        *   byte 처리 등등 기타 여러 HttpMessageConverter가 기본으로 등록되어 있다.
+
+*   MessageConvertor가 중요하며, @EnableWebMvc로 사용하게 되면 기본 제공된다.
+
+    *   http와 관련된 코드 및 요청/응답 매핑을 스프링이 알아서 해준다.
+
+    *   이 어노테이션을 사용하여 컨트롤러를 JSON형식으로 반환하는 컨트롤러로 만들어준다.
+
+*   문제는 JSON으로 변환하기 위해서는 Jackson 라이브러리가 꼭 필요하다.
+
+***
+
+### MockMVC
+
+WebAPI를 테스트하기위해서 WAS를 실행해야한다는 문제를 해결하기 위해 스프링 3.2부터 생겼다.
+
+
+
+Controller를 단위 테스트한다는 것은 controller가 사용하는 Service에 대한 부분은 함께 테스트하지 않는다는 것이다. 이를 위해 Service에 대한 부분은 Mock객체를 사용하고, Mokito를 이용해 목객체를 생성한다. [예제](https://www.boostcourse.org/web326/lecture/59389?isDesc=false)
+
+***
+
+### Swagger
+
+*   Web API 문서화를 위한 도구이다.
+
+*   API들이 가지는 명세를 관리하기 위한 프로젝트이다.
+*   자동으로 Web API를 문서갱신 시켜준다.
+
+[Swagger-ui확인 및 기능테스트 예제](https://www.boostcourse.org/web326/lecture/58990/?isDesc=false)
 
 
 
@@ -186,15 +304,27 @@ TDD를 적용해 테스트를 먼저 개발함으로써 개발자는 자연스�
      **Spring MVC가 지원하는 메소드 인수 애노테이션**
 
      -   **@RequestParam**
+     
      -   **@RequestHeader**
+     
      -   **@RequestBody**
+     
+         -   JSON 형식으로 전송된 요청 데이터를 커맨드 객체로 전달받는 방법이다.
+
+             이 애노테이션을 커맨드 객체에 붙이면 JSON형식의 문자열을 해당 자바객체로 변환한다.
+
+             보통 반환하고자 하는 리소스가 복잡할 때 사용한다.(오브젝트처럼 복잡한 자료형을 통째로 요청에 보내고 싶은 경우)
+
      -   @RequestPart
+     
      -   **@ModelAttribute**
+
      -   **@PathVariable**
+
      -   @CookieValue
 
       
-
+     
      **@RequestParam**
 
      -   Mapping된 메소드의 Argument에 붙일 수 있는 어노테이션
@@ -202,24 +332,24 @@ TDD를 적용해 테스트를 먼저 개발함으로써 개발자는 자연스�
      -   @RequestParam의 required는 필수인지 아닌지 판단
 
       
-
+     
      **@PathVariable**
-
+     
      -   @RequestMapping의 path에 변수명을 입력받기 위한 place holder가 필요함
      -   place holder의 이름과 PathVariable의 name 값과 같으면 mapping 됨
      -   required 속성은 default true 임
-
+     
       
-
+     
      **@RequestHeader**
-
+     
      -   요청 정보의 헤더 정보를 읽어들 일 때 사용
      -   @RequestHeader(name="헤더명") String 변수명
-
+     
       
-
+     
      **Spring MVC가 지원하는 메소드 리턴 값**
-
+     
      -   **org.springframework.web.servlet.ModelAndView**
      -   org.springframework.ui.Model
      -   java.util.Map
