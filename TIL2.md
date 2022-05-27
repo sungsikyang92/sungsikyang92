@@ -313,7 +313,7 @@ TDD를 적용해 테스트를 먼저 개발함으로써 개발자는 자연스�
          *   web.xml파일에 설정, javax.servlet.ServletContainerInitializer, org.springframework.web.WebApplicationInitializer의 세가지 방법이 있다.
      *   Config 생성
          *   @Configuration
-         *   @EnableWebMvc - Web에 필요한 ㅂ니들을 대부분 자동으로 설정해준다.
+         *   @EnableWebMvc - Web에 필요한 부분들을 대부분 자동으로 설정해준다.
          *   @ComponentScan - 범위를 지정해줌으로서 컨테이너 관리에 용이하다.
          *   WebMvcConfigurerAdapter 상속 - 기본 설정 이외의 설정이 필요할 경우 해당 클래스를 상속 받은 후, 메소드를 오버라이딩 하여 구현한다.
 
