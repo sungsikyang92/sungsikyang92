@@ -42,9 +42,13 @@ HashMap<> map = new HashMap<>(); 안하고? 차이는?
 
 *   ResultSet을 전달받고 필요한 정보를 ResultSet의 로우 하나만을 매핑하기 위해 사용한다.
 
-#### queryForObject()
+#### jdbc.queryForObject()
 
 *   SQL의 DML중 SELECT를 실행했을 때 하나의 객체결과값이 나올 때 사용하는 메소드이다.
+
+#### jdbc.query()
+
+*   많은 결과 값(로우 값)을 처리 할 수 있는 메소드이다.
 
 ### web.xml 한글 인코딩 설정
 
@@ -317,7 +321,7 @@ TDD를 적용해 테스트를 먼저 개발함으로써 개발자는 자연스�
          *   @Configuration
          *   @EnableWebMvc - Web에 필요한 부분들을 대부분 자동으로 설정해준다.
          *   @ComponentScan - 범위를 지정해줌으로서 컨테이너 관리에 용이하다.
-         *   WebMvcConfigurerAdapter 상속 - 기본 설정 이외의 설정이 필요할 경우 해당 클래스를 상속 받은 후, 메소드를 오버라이딩 하여 구현한다.
+         *   WebMvcConfigurerAdapter 상속 - 기본 설정 이외의 설정이 필요할 경우 해당 클래스를 상속 받은 후, 메소드를 오버라이딩 하여 구현한다. 그러나 최신버전에서는 이제 사용하지 않는다.
 
 3.   Spring MVC에서 Controller 실습
 
