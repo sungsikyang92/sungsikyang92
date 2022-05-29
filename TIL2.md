@@ -6,6 +6,58 @@
 
 # [발생에러목록과해결과정(계속 반복되니 기록해놓자)](https://github.com/sungsikyang92/sungsikyang92/blob/main/Error_Process.md)
 
+
+
+## 20220529_TIL
+
+### GITIGNORE 안먹힐때 !
+
+나의 경우 대부분 미리 에드 커밋하구나서 이미 추적중인데 뒤늦게 파일을 gitignore하고싶을때이다.
+
+`git rm -r --cached 파일명1 파일명2 ...`
+
+이렇게 git에 upload하고 싶지 않은 파일을 git에서 rm해주면 된다.
+
+
+
+
+
+## 20220528_TIL
+
+#### jdbc.queryForObject()
+
+*   SQL의 DML중 SELECT를 실행했을 때 하나의 객체결과값이 나올 때 사용하는 메소드이다.
+
+#### jdbc.query()
+
+*   많은 결과 값(로우 값)을 처리 할 수 있는 메소드이다.
+
+### web.xml 한글 인코딩 설정
+
+```xml
+	<filter>
+		<filter-name>encodingFilter</filter-name>
+		<filter-class>org.springframework.web.filter.CharacterEncodingFilter
+		</filter-class>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>encodingFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+```
+
+아아... encodingFilter의 url-pattern을 '/'로 해놨었다.. 이걸 놓쳐서 몇시간 삽질인가.. '/*'으로 해야 정상적으로 한글 인코딩이 된다.
+
+
+
+
+
+
+
 ## 20220527_TIL
 
 #### [Spring JDBC]NamedParameterJdbcTemplate 
@@ -42,33 +94,7 @@ HashMap<> map = new HashMap<>(); 안하고? 차이는?
 
 *   ResultSet을 전달받고 필요한 정보를 ResultSet의 로우 하나만을 매핑하기 위해 사용한다.
 
-#### jdbc.queryForObject()
 
-*   SQL의 DML중 SELECT를 실행했을 때 하나의 객체결과값이 나올 때 사용하는 메소드이다.
-
-#### jdbc.query()
-
-*   많은 결과 값(로우 값)을 처리 할 수 있는 메소드이다.
-
-### web.xml 한글 인코딩 설정
-
-```xml
-	<filter>
-		<filter-name>encodingFilter</filter-name>
-		<filter-class>org.springframework.web.filter.CharacterEncodingFilter
-		</filter-class>
-		<init-param>
-			<param-name>encoding</param-name>
-			<param-value>UTF-8</param-value>
-		</init-param>
-	</filter>
-	<filter-mapping>
-		<filter-name>encodingFilter</filter-name>
-		<url-pattern>/*</url-pattern>
-	</filter-mapping>
-```
-
-아아... encodingFilter의 url-pattern을 '/'로 해놨었다.. 이걸 놓쳐서 몇시간 삽질인가.. '/*'으로 해야 정상적으로 한글 인코딩이 된다.
 
 
 
