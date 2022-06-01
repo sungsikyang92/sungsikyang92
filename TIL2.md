@@ -8,6 +8,31 @@
 
 
 
+# 20220601_TIL
+
+### 인터셉터(Intercepter)
+
+*   Dispatcher Servlet에서 Handler(Controller)로 요청을 보낼때, 또는 응답을 보낼 댸 동작한다.
+*   인터셉터 작성법
+    -   org.springframework.web.servlet.HandlerInterceptor 인터페이스를 구현합니다.
+    -   org.springframework.web.servlet.handler.HandlerInterceptorAdapter 클래스를 상속받습니다.
+    -   Java Config를 사용한다면, WebMvcConfigurerAdapter가 가지고 있는 addInterceptors 메소드를 오버라이딩하고 등록하는 과정을 거칩니다.
+    -   xml 설정을 사용한다면, <mvc:interceptors> 요소에 인터셉터를 등록합니다.
+
+
+
+# 20220531_TIL
+
+### PasswordEncoder를 Bean에 등록하는 이유
+
+*   spring security를 이용해서 로그인 처리를 하기 위해서 반드시 암호가 인코딩 되어있어야만 올바르게 작동이 된다.
+
+스프링시큐리티 어렵다..
+
+
+
+
+
 # 20220530_TIL
 
 ### 웹에서의 상태 유지 기술
