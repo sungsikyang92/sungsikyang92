@@ -12,12 +12,155 @@
 
 ### 인터셉터(Intercepter)
 
-*   Dispatcher Servlet에서 Handler(Controller)로 요청을 보낼때, 또는 응답을 보낼 댸 동작한다.
+*   Dispatcher Servlet에서 Handler(Controller)로 요청을 보낼때, 또는 응답을 보낼 때 동작한다.
 *   인터셉터 작성법
     -   org.springframework.web.servlet.HandlerInterceptor 인터페이스를 구현합니다.
     -   org.springframework.web.servlet.handler.HandlerInterceptorAdapter 클래스를 상속받습니다.
     -   Java Config를 사용한다면, WebMvcConfigurerAdapter가 가지고 있는 addInterceptors 메소드를 오버라이딩하고 등록하는 과정을 거칩니다.
     -   xml 설정을 사용한다면, <mvc:interceptors> 요소에 인터셉터를 등록합니다.
+
+<img width="418" alt="image" src="https://user-images.githubusercontent.com/71358285/171334739-393ecd1f-66af-408b-ba74-e5b0e1373e4f.png">
+
+### Argument Resolver
+
+*   컨트롤러의 메소도의 인자로 사용자가 임의의 값을 전달하는 방법을 제공하고자 할 때 사용된다.
+*   ex) 세션에 저장되어 있는 값 중 특정 이름의 값을 메소드 인자로 전달한다.
+
+**아규먼트 리졸버 작성방법 1/2**
+
+-   org.springframework.web.method.support.HandlerMethodArgumentResolver를 구현한 클래스를 작성합니다.
+-   supportsParameter메소드를 오버라이딩 한 후, 원하는 타입의 인자가 있는지 검사한 후 있을 경우 true가 리턴되도록 합니다.
+-   resolveArgument메소드를 오버라이딩 한 후, 메소드의 인자로 전달할 값을 리턴합니다.
+
+
+
+**아규먼트 리졸버 작성방법 2/2**
+
+-   Java Config에 설정하는 방법
+    \- WebMvcConfigurerAdapter를 상속받은 Java Config 파일에서 addArgumentResolvers 메소드를 오버라이딩 한 후 원하는 아규먼트 리졸버 클래스 객체를 등록합니다.
+-   xml 파일에 설정하는 방법
+
+```xml
+<mvc:annotation-driven>
+	<mvc:argument-resolvers>
+    	<bean class="ArgumentResolverClass"></bean>
+    </mvc:argument-resolvers>
+</mvc:annotation-driven>
+```
+
+1.   HeaderInfo.java
+2.   HeaderMapArgumentResolver.java
+3.   WebMvcContextConfiguration클래스에 addArgumentResolvers메소드를 오버라이딩, 인자로 넘어온 argumentResolvers에 생성한 아규먼트 리졸버를 넘긴다.
+4.   Controller의 메소드인 list메소드의 인자로 HeaderInfo를 추가
+5.   마지막 확인으로 콘솔에 headerInfo의 get메소드에 user-agent를 넘겨서 값이 잘 출력되는지 확인
+
+이에 대해서는 이 [블로그](https://blog.neonkid.xyz/238)를 참조
+
+***
+
+### Logging
+
+*   정보를 제공하는 일련의 기록인 log를 생성하도록 시스템을 작성하는 활동이다.
+*   로그가 제공하는 정보의 양은, 이상적으로는 프로그램이 실행되는 중에도, 설정 가능해야 한다.
+*   일반적인 로그 기록의 이점으로는
+    *   재현하기 힘든 버그에 대한 유용한 정보를 제공할 수 있다.
+    *   성능에 관한 통계와 정보를 제공할 수 있다. - ex)구문들 사이에 걸리는 시간
+    *   설정이 가능할 때, 로그는 예기치 못한 특정 문제들을 디버그 하기 위해, 그 문제들을 처리하도록 코드를 수정하여 다시 적용하지 않아도, 일반적인 정보를 갈무리할 수 있게 한다.
+
+**로그를 출력하는 방법**
+
+*   System.out.print() 이용
+*   로깅 라이브러리 이용
+    *   java.util.logging
+        -   JDK 1.4부터 포함된 표준 로깅 API
+        -   별도 라이브러리 추가 불필요
+        -   기능이 많이 부족해 다른 로그 라이브러리를 더 많이 사용
+    *   Apache Commons logging
+        -   아파치 재단에 Commons 라이브러리 중에 로그 출력을 제공하는 라이브러리
+    *   Log4j
+        -   아파치 제단에서 제공하며 가장 많이 사용되는 로깅 라이브러리
+    *   Logback
+        -   Log4j를 개발한 Ceki Gulcu가 Log4j의 단점 개선 및 기능을 추가하여 개발한 로깅 라이브러리
+
+***
+
+### SLF4J - Simple Logging Facade for Java
+
+*   로깅 Facade이다. - Facade는 소프트웨어의 커다란 코드 부분에 대하여 간략화된 인터페이스를 제공해주는 디자인 패턴을 의미한다.
+
+[SLF4J를 이용해 로깅 라이브러리 사용하기](https://www.boostcourse.org/web326/lecture/59006/?isDesc=false)<sub>출처 - 네이버 부스트코스</sub>
+
+***
+
+### 파일 업로드 & 다운로드
+
+#### Multipart
+
+*   웹 클라이언트가 요청을 보낼 때 HTTP 프로토콜의 바디 부분에 데이터를 여러 부분으로 나눠서 보내는 것이다. 보통 파일을 전송할 때 사용한다.
+
+*   HttpServletRequest는 파일업로드를 지원하지 않으므로, 파일 업로드를 처리하려면 별도의 라이브러리를 사용해야 한다. 대표적으로 아파치의 commons-fileupload가 있다.
+
+*   #### Spring MVC에서 파일을 업로드하려면 
+
+     1. 아래의 라이브러리 추가
+
+    ```xml
+    <dependency>
+    <groupId>commons-fileupload</groupId>
+    <artifactId>commons-fileupload</artifactId>
+    <version>1.2.1</version>
+    </dependency>
+    <dependency>
+    <groupId>commons-io</groupId>
+    <artifactId>commons-io</artifactId>
+    <version>1.4</version>
+    </dependency>
+    ```
+
+    2.   MultipartResolver Bean을 추가
+
+    ```java
+    @Bean
+    public MultipartResolver multipartResolver() {
+    org.springframework.web.multipart.commons.CommonsMultipartResolver multipartResolver = new org.springframework.web.multipart.commons.CommonsMultipartResolver();
+    multipartResolver.setMaxUploadSize(10485760); // 1024 * 1024 * 10
+    return multipartResolver;
+    }
+    ```
+
+    3.   파일 업로드 폼
+         *   enctpye을 반드시 확인해야한다.
+
+    ```jsp
+    <form method="post" action="/upload"
+                  enctype="multipart/form-data">
+    ......
+    <input type="file" name="file">
+    <input type="submit">
+    </form>
+    ```
+
+    4.   Controller 업로드 처리
+
+    *   @PostMapping 사용
+    *   업로드 파일이 하나일 경우 `@RequestParam("file") MultipartFile file`
+    *   업로드 파일이 여러 개일 경우 `@RequestParam("file") MultipartFile[] files`
+    *   MultipartFile의 메소드를 이용해서 파일 이름, 파일 크기 등을 구하고 InputStream을 얻어 파일을 서버에 저장한다.
+
+    5.   Controller 다운로드 처리
+
+    ```java
+    response.setHeader("Content-Disposition", "attachment; filename=\"" + fileName + "\";");
+    response.setHeader("Content-Transfer-Encoding", "binary");
+    response.setHeader("Content-Type", contentType);
+    response.setHeader("Content-Length", fileLength;
+    response.setHeader("Pragma", "no-cache;");
+    response.setHeader("Expires", "-1;");
+    ```
+
+    
+
+
 
 
 
