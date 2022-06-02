@@ -6,6 +6,12 @@
 
 # [발생에러목록과해결과정(계속 반복되니 기록해놓자)](https://github.com/sungsikyang92/sungsikyang92/blob/main/Error_Process.md)
 
+# 20220602_TIL
+
+
+
+
+
 
 
 # 20220601_TIL
