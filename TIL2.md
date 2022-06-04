@@ -6,9 +6,11 @@
 
 # [발생에러목록과해결과정(계속 반복되니 기록해놓자)](https://github.com/sungsikyang92/sungsikyang92/blob/main/Error_Process.md)
 
-# 20220603_TIL
+# 20220604_TIL
 
+### SQL_ORDER BY 다중정렬
 
+`ORDER BY 필드1, 필드2` 의 형태로 정렬하면 된다.
 
 
 
