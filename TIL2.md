@@ -6,6 +6,34 @@
 
 # [발생에러목록과해결과정(계속 반복되니 기록해놓자)](https://github.com/sungsikyang92/sungsikyang92/blob/main/Error_Process.md)
 
+# 20220606_TIL
+
+**영한이형! 강의 다시 시작**
+
+### concurrentHashMap
+
+*   동시성이슈로 사용한다.
+
+***
+
+### Test
+
+테스트를 위해서 테스트 패키지에 패키지와 테스트클래스를 만들어서 @Test 테스트어노테이션을 붙여준다.
+
+1.   given
+2.   when
+3.   then
+
+의 방식으로 테스트코드를 작성해주면 보기 쉽다.
+
+테스트는 항상 테스트가 통과하지 않는 경우도 만들어서 확인해보아야한다.
+
+
+
+
+
+
+
 # 20220604_TIL
 
 ### SQL_ORDER BY 다중정렬
