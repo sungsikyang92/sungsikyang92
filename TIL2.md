@@ -6,6 +6,16 @@
 
 # [발생에러목록과해결과정(계속 반복되니 기록해놓자)](https://github.com/sungsikyang92/sungsikyang92/blob/main/Error_Process.md)
 
+# 20220613_TIL
+
+## MyBatis에서의 LocalDateTime
+
+Dto에서 자료형을 LocalDateTime으로 설정했을때, 날짜를 인식하지 못하는 문제가 있었다. 
+
+LocalDateTimeTypeHandler에 @MappedType(LocalDateTime.class)를 어노테이션 설정해주면 된다고 한다. 그러나 내가 이 페이지에 들어갔을때 수정을 할 수가 없었다. 그래서 Date로 자료형을 변경해서 했다.
+
+
+
 # 20220609_TIL
 
 **HiddenHttpMethodFilter**
