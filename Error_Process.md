@@ -1,5 +1,23 @@
 # **오류 해결 과정**
 
+# 20220615
+
+## No editor descriptor for id org.eclipse.jst.jsp.core.jspsource.source // No editor descriptor for id com.springsource.sts.config.ui.editors.SpringConfigEditor
+
+맥북의 네트워크가 잘 되지않아서 TUVA가서 검사를 받고왔다.. 그런데 검사만 받았을 뿐인데.. 정상적으로 종료되었던 이클립스가 되지 않아서 삭제했다가 다시 설칠했다.
+
+그랬더니 제목의 두 에러가 떳다.
+
+첫번째 오류는 `Help`->`Install New Software`-> `Work with`->`All Availablt Sites`에서 `Web,XML,JavaEE AND OSGI Enterprise Development`설치해주면 해결된다.
+
+두번째 오류는 `Help`->`Install New Software`->스프링 관련 검색으로 `Spring IDE Boot Support`를 설치해주면 오류가 해결된다.
+
+
+
+
+
+
+
 # 20220611
 
 ## Controller에서 JSP로 값을 넘기지 못하는 경우
