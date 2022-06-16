@@ -6,6 +6,20 @@
 
 # [발생에러목록과해결과정(계속 반복되니 기록해놓자)](https://github.com/sungsikyang92/sungsikyang92/blob/main/Error_Process.md)
 
+# 20220616_TIL
+
+
+
+
+
+# 20220615_TIL
+
+## Connection Pool
+
+최초 연결에 따른 응답 속도 저하와 동시 접속자가 많을 때 발생하는 부하를 줄이기 위해 사용하는 것이 커넥션 풀이다. 커넥션 풀은 일정 개수의 DB커넥션을 미리 만들어두는 기법이다. DB 커넥션이 필요한 프로그램은 커넥션 풀에서 커넥션을 가져와 사용한 뒤 커넥션을 다시 풀에 반납한다. 커넥션을 미리 생성해두기 때문에 커네션을 사용하는 시점에서 커넥션을 생성하는 시간을 아낄수 잇다. 또한 동시 접속자가 많더라도 커넥션을 생성하는 부하가 적기 때문에 더 많은 동시 접속자를 처리할 수 있다. 커넥션도 일정 개수로 유지해서 DBMS에 대한 부하를 일정 수준으로 유지할 수 있게 해준다.
+
+[프로퍼티들 살펴보기](https://tomcat.apache.org/tomcat-8.5-doc/jdbc-pool.html)
+
 # 20220613_TIL
 
 ## MyBatis에서의 LocalDateTime
@@ -13,6 +27,8 @@
 Dto에서 자료형을 LocalDateTime으로 설정했을때, 날짜를 인식하지 못하는 문제가 있었다. 
 
 LocalDateTimeTypeHandler에 @MappedType(LocalDateTime.class)를 어노테이션 설정해주면 된다고 한다. 그러나 내가 이 페이지에 들어갔을때 수정을 할 수가 없었다. 그래서 Date로 자료형을 변경해서 했다.
+
+
 
 
 
