@@ -1,5 +1,11 @@
 # **오류 해결 과정**
 
+# 20220619
+
+지금 몇일째 첫페이지 불러오는것과 DB연결에 대하여 오류가 지속적으로 발생하고 있다..
+
+
+
 # 20220615
 
 ## No editor descriptor for id org.eclipse.jst.jsp.core.jspsource.source // No editor descriptor for id com.springsource.sts.config.ui.editors.SpringConfigEditor
