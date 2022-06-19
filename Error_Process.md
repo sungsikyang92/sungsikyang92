@@ -4,7 +4,15 @@
 
 지금 몇일째 첫페이지 불러오는것과 DB연결에 대하여 오류가 지속적으로 발생하고 있다..
 
+Exception during pool initialization 오류이다.
 
+`java.sql.SQLException: Access denied for user 'ssiky'@'localhost' (using password: YES)`
+
+인데.. 
+
+내가 설정한 mysql의 유저는 ssy였다. 그런데 계속 ssiky를 찾는다.
+
+그래서 ssiky를 만들어서 연결했더니 해결되었다. 왜그럴까?
 
 # 20220615
 
