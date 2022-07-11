@@ -6,6 +6,18 @@
 
 # [발생에러목록과해결과정(계속 반복되니 기록해놓자)](https://github.com/sungsikyang92/sungsikyang92/blob/main/Error_Process.md)
 
+#  20220712_TIL
+
+MySQL Table 컬럼명 변경
+
+`ALTER TABLE "TABLENAME" CHANGE "BEFORECOLUMNNAME" "AFTERCOLUMNNAME" "COLUMNTYPE"`
+
+MySQL Table 컬럼타입 변경
+
+`ALTER TABLE "TABLENAME" MODIFY "COLUMNNAME" "CHANGEDCOLUMNTYPE"`
+
+
+
 # 20220703_TIL
 
 멘토님들께 피드백받은 내용을 정리해보았다.
