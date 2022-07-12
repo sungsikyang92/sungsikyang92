@@ -1,5 +1,41 @@
 # **오류 해결 과정**
 
+# 20220712
+
+*   에러발생
+
+    jsp에서 c:forEach하여 리스트값을 불러오는데 값을 불러오지못하는 현상
+
+    ![스크린샷 2022-07-12 오전 10.57.33](/Users/ssiky/Library/Application Support/typora-user-images/스크린샷 2022-07-12 오전 10.57.33.png)
+
+*   해결하기 위하여 한 행동
+
+    1.   Controller에서부터 ServiceImpl, Service, Mapper, Dto 모두 확인하였다. 입력된 값없이 데이터를 불러오는것이기에 따로 값이 잘 전달되는지 확인해야할 필요는 없었다. 
+
+    2.   전달되는것 말고 값을 잘 불러오는지 확인해보았다.
+
+         `System.out.println(communityMapper.getComBoardList().get(0));`
+
+         service, controller에서 정상적으로 잘 받아온다
+
+         `CommunityDto(cBoardNo=1, cTitle=test1, cContent=test중입니다, cCreateDate=Tue Jul 12 00:00:00 KST 2022, cIsModified=false, cLocation=testLoc, cCategory=testCat, userNo=1, hashNo=1, picNo=1)`
+
+    3.   dto 변수명과 db의 변수명이 같은지 확인해보았으나, 다른점을 찾을 수 없었다.
+
+*   해결
+
+    getter와 setter를 적용시키며 변수명이 조금씩 변했다.
+
+    Community게시판의 변수들이라 앞에 c를 붙이고 fk로 받아오는 값들은 c가 없이 들어가있었다.
+
+    그런데 getter와 setter가 적용되며 c값들은 대문자로 인식이되었고, c가 붙지않은 값들은 그대로 적용이되었다.
+
+    결국 jsp 화면에서 c가 붙은 변수명들을 C로 바꾸어주었고, 나머지는 소문자 그대로 유지하니 해결되었다.
+
+    
+
+
+
 # 20220627 ![스크린샷 2022-06-27 오전 8.15.01](/Users/ssiky/Library/Application Support/typora-user-images/스크린샷 2022-06-27 오전 8.15.01.png)
 
 드디어 위의 에러를 해결했다.
@@ -10,15 +46,11 @@
 
 위의 세가지를 모두 해서일지.. 마지막 3번째 방법덕분에 되었을지는 잘 몰르겠지만, 해결했다. 드디어.,.!
 
-# 20220626
-
-
-
 
 
 # 20220624
 
-패스 안잡아진다...진짜..화난다... 이거 무조건 해결한다...
+패스 안잡아진다...진짜..화난다... 이거 무조건 해결한다...20220627해결완료
 
 
 

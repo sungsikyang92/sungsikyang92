@@ -16,6 +16,29 @@ MySQL Table 컬럼타입 변경
 
 `ALTER TABLE "TABLENAME" MODIFY "COLUMNNAME" "CHANGEDCOLUMNTYPE"`
 
+MySQL에서 BIGINT 는 Java의 LONG타입, TINYINT는 BOOLEAN이다.
+
+
+
+### MySql 프로시저 사용하여 더미데이터 입력
+
+```sql
+DELIMITER $$
+DROP PROCEDURE IF EXISTS insertLoop $$
+
+CREATE PROCEDURE insertLoop()
+BEGIN
+	DECLARE i INT DEFAULT 2;
+	WHILE i <= 20 DO
+		INSERT INTO Community VALUES (null, concat('test', i), concat('test중입니다', i), now(), 0, concat('testLoc', i), concat('testCat', i), i, i, i);
+		SET i = i + 1;
+	END WHILE;
+END $$
+DELIMITER ;
+
+CAll laf.insertData;
+```
+
 
 
 # 20220703_TIL
