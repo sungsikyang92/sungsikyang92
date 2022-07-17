@@ -6,6 +6,277 @@
 
 # [발생에러목록과해결과정(계속 반복되니 기록해놓자)](https://github.com/sungsikyang92/sungsikyang92/blob/main/Error_Process.md)
 
+# 20220712_TIL
+## 파일 입력
+
+### 1.   파일 첨부를 위한 Dependency 2개를 추가한다. 예시의 형태는 Maven형식이다.
+
+```xml
+<!-- 첨부파일 START-->
+		<!-- MultipartHttpServletRequset -->
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>2.11.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-fileupload</groupId>
+			<artifactId>commons-fileupload</artifactId>
+			<version>1.4</version>
+		</dependency>
+
+		<!-- 첨부파일 END -->
+```
+
+
+
+### 2.   common 패키지 생성 후, FileUtils 클래스를 생성해준다.
+
+```java
+package com.rocket.laf.common;
+
+import com.rocket.laf.dto.ComPicTestDto;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ResourceLoader;
+import org.springframework.stereotype.Component;
+import org.springframework.util.ObjectUtils;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+
+import java.io.File;
+import java.nio.file.Path;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+@Component
+public class FileUtils {
+
+    @Autowired
+    ResourceLoader resourceLoader;
+
+    public List<ComPicTestDto> parseFileInfo(long cBoardNo, MultipartHttpServletRequest multipartHttpServletRequest) throws Exception {
+        if (ObjectUtils.isEmpty(multipartHttpServletRequest)) {
+            return null;
+        }
+        List<ComPicTestDto> fileList = new ArrayList<>();
+        //시간을 생성하는 이유는 저장될 파일 이름이 겹치지 않게 하기위해서 시간으로 파일명을 바꿔서 저장합니다.
+        DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyyMMdd");
+        ZonedDateTime current = ZonedDateTime.now();
+        //저장되는 Path 설정입니다. 각자의 경로가 다르기에 시스템상으로 Path.of....을 사용하여 경로를 구하고 마지막 저장될 파일 경로를 따로 기입해줍니다. 
+        String rootPath = Path.of(resourceLoader.getResource("classpath:static").getURI()).toString() + "/img/communityBoard/";
+        String path = rootPath + current.format(format);
+        File file = new File(path);
+        if (file.exists() == false) {
+            file.mkdir();
+        }
+
+        Iterator<String> iterator = multipartHttpServletRequest.getFileNames();
+
+        String newFileName, originalFileExtension, contentType;
+
+        while (iterator.hasNext()) {
+            List<MultipartFile> list = multipartHttpServletRequest.getFiles(iterator.next());
+            for (MultipartFile multipartFile : list) {
+                if (multipartFile.isEmpty() == false) {
+                    contentType = multipartFile.getContentType();
+                    if (ObjectUtils.isEmpty(contentType)) {
+                        break;
+                    } else {
+                        //저장되는 파일의 형태를 확인 후, 해당하는 확장자명으로 저장합니다.
+                        if (contentType.contains("image/jpeg")) {
+                            originalFileExtension = ".jpg";
+                        } else if (contentType.contains("image/png")) {
+                            originalFileExtension = ".png";
+                        } else if (contentType.contains("image/gif")) {
+                            originalFileExtension = ".gif";
+                        } else {
+                            break;
+                        }
+                    }
+
+                    newFileName = Long.toString(System.nanoTime()) + originalFileExtension;
+                    ComPicTestDto comPicTestDto = new ComPicTestDto();
+                    comPicTestDto.setCBoardNo(cBoardNo);
+                    comPicTestDto.setFileSize(multipartFile.getSize());
+                    comPicTestDto.setOriginalFileName(multipartFile.getOriginalFilename());
+                    comPicTestDto.setStoredFilePath(path + "/" + newFileName);
+                    fileList.add(comPicTestDto);
+
+                    file = new File(path + "/" + newFileName);
+                    multipartFile.transferTo(file);
+                }
+            }
+        }
+        return fileList;
+    }
+}
+
+```
+
+### 3.   파일 설정을 위한 config패키지를 생성 후, config 클래스를 생성해준다.
+
+```java
+package com.rocket.laf.config;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
+
+@Configuration
+public class WebMvcConfiguration {
+
+    @Bean
+    public CommonsMultipartResolver commonsMultipartResolver() {
+        CommonsMultipartResolver commonsMultipartResolver = new CommonsMultipartResolver();
+        commonsMultipartResolver.setDefaultEncoding("UTF-8"); //파일 인코딩 설정
+        commonsMultipartResolver.setMaxUploadSizePerFile(5 * 1025 * 1024); //파일당 업로드 크기 제한(5MB)
+        return commonsMultipartResolver;
+    }
+}
+
+```
+
+### 4.   파일입력기능을 추가할 jsp에 추가
+
+ form에 `enctype="multipart/form-data"`를 추가해준다.
+
+input에도 `type="file"과 multiple="multiple"`을 추가해준다.
+
+```jsp
+<div class="contents_container">
+            <form action="/cBoard/write" method="post" enctype="multipart/form-data">
+                <table>
+                    <tr>
+                        <td><input type="file" name="picCom" id="picCom" multiple="multiple"></td>
+                    </tr>
+                    <tr>
+                        <td><input type="text" name="cTitle" placeholder="글 제목을 입력해주세요"></td>
+                    </tr>
+                    <tr>
+                        <td><input type="text" name="cCategory" placeholder="카테고리 입력"> </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <textarea name="cContent" placeholder="글 내용을 입력해주세요"></textarea>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="button" value="취소" onclick="location.href='/cBoard'">
+                            <input type="submit" value="확인"></td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+```
+
+### 5. 파일 입력을 위한 DTO생성
+
+```java
+@Data
+public class ComPicTestDto {
+    private long idx;
+    private long cBoardNo;
+    private String originalFileName;
+    private String storedFilePath;
+    private long fileSize;
+}
+```
+
+### 5-1. 파일 입력을 위한 Table을 DB에 추가
+
+커뮤니티 게시글 번호는 본래 가지고있던 것과 맵핑해주어야 한다. 아래의 9번째 단계에서 이를 위해 @Option 어노테이션을 사용해준다.
+
+```mysql
+CREATE TABLE PicFile (
+	idx BIGINT AUTO_INCREMENT PRIMARY KEY COMMENT '일렬번호',
+	cBoardNo BIGINT NOT NULL COMMENT '커뮤니티 게시글 번호',
+	originalFileName VARCHAR(255) NOT NULL COMMENT '원본 파일 이름',
+	storedFilePath VARCHAR(255) NOT NULL COMMENT '파일 저장 경로',
+	fileSize BIGINT NOT NULL COMMENT '파일 크기',
+	userName VARCHAR(20) NOT NULL COMMENT '작성자 아이디',
+	cCreateDate DATETIME NOT NULL COMMENT '작성시간',
+	cIsModified BIT DEFAULT 0 COMMENT '삭제여부'
+);
+```
+
+### 6. Controller의 Parameter값에 MultipartHttpServletRequest를 추가
+
+```java
+    @PostMapping("/write")
+    public String writeComBoard(CommunityDto communityDto, MultipartHttpServletRequest multipartHttpServletRequest) throws Exception {
+        communityService.writeComBoard(communityDto, multipartHttpServletRequest);
+        long cBNo = communityService.getLastCBoardNo();
+        return "redirect:/cBoard/"+cBNo;
+    }
+```
+
+### 7. Service Interface의 파라미터값에 MultipartHttpServletRequest를 추가
+
+```java
+void writeComBoard(CommunityDto communityDto, MultipartHttpServletRequest multipartHttpServletRequest) throws Exception;
+```
+
+### 8. Service의 파라미터값에 MultipartHttpServletRequest를 추가
+
+```java
+@Override
+    public void writeComBoard(CommunityDto communityDto, MultipartHttpServletRequest multipartHttpServletRequest) throws Exception {
+        communityMapper.writeComBoard(communityDto);
+        List<ComPicTestDto> list = fileUtils.parseFileInfo(communityDto.getCBoardNo(), multipartHttpServletRequest);
+        if (CollectionUtils.isEmpty(list) == false) {
+            communityMapper.writeComBoardFileList(list);
+        }
+    }
+```
+
+### 9. 기존의 입력 Mapper 메소드에 @Options 추가
+
+@Options에 추가된 두 가지는, 게시글을 작성할 때 등록된 게시글 번호를 받아오는 방법을 수행한다.
+
+userGeneratedKeys 속성은 AUTO INCREMENT를 지원할 경우에 사용할 수 있다.
+
+keyProperty는 useGeneratedKeys의 하위 엘리먼트에 의해 리턴되는 키를 의미한다.
+
+```java
+    @Insert(" INSERT INTO Community " +
+            "(cTitle, cContent, cCreateDate, cLocation, cCategory, userNo, hashNo, picNo) " +
+            "VALUES (#{cTitle},#{cContent},now(),#{cLocation},#{cCategory},1,1,1) ")
+    @Options(useGeneratedKeys = true, keyProperty = "cBoardNo")
+    void writeComBoard(CommunityDto communityDto);
+```
+
+### 10. Mapper Class 추가
+
+Mapper클래스에서 쿼리문을 작성할 때, 파일 여러개를 입력하기위한 반복문을 써주어야한다. 이를 위해서 <script>를 사용한다.
+
+```java
+    @Insert({"<script>" +
+            "INSERT INTO PicFile " +
+            "(cBoardNo,originalFileName, storedFilePath, fileSize, userName, cCreateDate) VALUES" +
+            "<foreach collection='list' item='item' separator=','>" +
+            "(" +
+            "#{item.cBoardNo}," +
+            "#{item.originalFileName}," +
+            "#{item.storedFilePath}," +
+            "#{item.fileSize}," +
+            "'test'," +
+            "NOW()" +
+            ")" +
+            "</foreach> " +
+            "</script>"})
+    void writeComBoardFileList(List<ComPicTestDto> list) throws Exception;
+```
+
+
+
+
+
+
 #  20220712_TIL
 
 MySQL Table 컬럼명 변경
