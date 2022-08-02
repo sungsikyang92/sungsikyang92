@@ -1,5 +1,37 @@
 # **오류 해결 과정**
 
+# 20220802
+
+5지선다 문제에서 틀린 정답을 골랐을때 화면이 이상하게 리프레쉬됨. 본래 계획은 오답이라고 알람이 떠야한다.
+
+해당 게시물에 3번이상 오답이면 대화걸기가 아예 사라지면 좋을듯 함
+
+
+
+HashOperations 타입을 그대로 사용하면 Deserialize 하기가 쉽지 않다.
+
+따라서 HashOperations 를 한번더 감싼 RedisTemplate 인터페이스를 사용하여 Deserialize 설정 해주면 키,값 들이 깨지지 않고 그대로 보여진다.
+
+
+
+첨부된 실행 결과를 보면 RedisTemplate 으로 사용한것에 대해서는 그대로 보여지지만 HashOperations 를 사용한 키,값들은 hex 로 보여진다.
+
+
+
+### DefaultSerializer requires a Serializable payload but received an object of type [com.rocket.laf.dto.ChatRoom]
+
+ChatRoom클래스는 Redis에 저장되는 객체로써 Serialize가능해야하는데 implements를 해주지 않았었다.
+
+Serializable을 implements함으로써 해결되었다. 
+
+그런데 직렬화란 무엇인가? 
+
+*   자바 시스템 내부에서 사용되는 객체 또는 데이터를 외부의 자바 시스템에서도 사용할 수 있도록 바이트 형태로 데이터를 변환하는 기술이다. 그리고 다시 바이트로 변환된 데이터를 객체나 데이터로 다시 변환하는 기술(역직렬화)이다.
+
+    
+
+
+
 # 20220729
 
 *   문제발생
